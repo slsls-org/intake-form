@@ -1,0 +1,2378 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Application for Free Legal Services</title>
+  <style>
+    :root {
+      --purple: rgb(176, 98, 221);
+      --purple-light: rgb(190, 120, 230);
+      --purple-dark: rgb(162, 76, 207);
+      --purple-50: #faf5ff;
+      --purple-100: #f3e8ff;
+      --purple-200: #e9d5ff;
+      --bg: #fafbfc;
+      --card: #ffffff;
+      --text: #0f172a;
+      --text-secondary: #475569;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --border-focus: #cbd5e1;
+      --danger: #ef4444;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --info: #3b82f6;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #fafbfc 0%, #f1f5f9 100%);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1000px;
+      margin: 32px auto 48px;
+      padding: 0 20px;
+    }
+    
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow-xl), 0 0 0 1px rgba(0, 0, 0, 0.02);
+      overflow: hidden;
+      transition: box-shadow 0.3s ease;
+    }
+    
+    .topbar {
+      height: 6px;
+      background: linear-gradient(135deg, var(--purple) 0%, var(--purple-light) 100%);
+    }
+    
+    .header {
+      padding: 24px 32px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to bottom, #ffffff 0%, #fafbfc 100%);
+    }
+    
+    .header .meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .logo-img {
+      height: 52px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+    }
+    
+    .header-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    
+    .header-sub {
+      margin: 2px 0 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    .progress {
+      text-align: right;
+      min-width: 180px;
+    }
+    
+    .progress small {
+      color: var(--text-secondary);
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+    
+    .bar {
+      width: 180px;
+      height: 10px;
+      background: var(--purple-100);
+      border-radius: 999px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+    }
+    
+    .bar > span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(135deg, var(--purple) 0%, var(--purple-light) 100%);
+      border-radius: 999px;
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 8px rgba(124, 58, 237, 0.3);
+    }
+    
+    form {
+      padding: 32px;
+      background: #ffffff;
+    }
+    
+    .step {
+      display: none;
+      animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .step.active {
+      display: block;
+    }
+    
+    @keyframes fadeIn {
+      from { 
+        opacity: 0; 
+        transform: translateY(8px);
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0);
+      }
+    }
+    
+    .step h2 {
+      font-size: 20px;
+      margin: 0 0 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      padding-bottom: 12px;
+      border-bottom: 3px solid var(--purple-100);
+      display: inline-block;
+    }
+    
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      margin: -4px 0 16px;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+    
+    .intro-card h1 {
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+      font-size: 36px;
+      line-height: 1.2;
+      margin: 0 0 16px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      background: linear-gradient(135deg, var(--purple-dark) 0%, var(--purple-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .intro-card p, .intro-card li {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    
+    .intro-card ul {
+      margin: 12px 0 16px 24px;
+      padding: 0;
+    }
+    
+    .intro-card li {
+      margin-bottom: 8px;
+      padding-left: 4px;
+    }
+    
+    .note {
+      background: linear-gradient(135deg, var(--purple-50) 0%, #fef3c7 100%);
+      border: 2px dashed var(--purple-200);
+      border-radius: 12px;
+      padding: 16px 18px;
+      color: var(--text);
+      font-size: 14px;
+      margin-top: 20px;
+      font-weight: 500;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 20px 20px;
+    }
+    
+    @media (max-width: 768px) {
+      .grid { grid-template-columns: 1fr; }
+      .progress { display: none; }
+      .container { margin: 16px auto 24px; padding: 0 16px; }
+      form { padding: 24px 20px; }
+      .header { padding: 20px 20px; }
+      .intro-card h1 { font-size: 28px; }
+    }
+    
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .sf-label {
+      font-size: 14px;
+      color: var(--text);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.4;
+    }
+    
+    .sf-field {
+      width: 100%;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 15px;
+      background: #ffffff;
+      outline: none;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      color: var(--text);
+      font-family: inherit;
+      line-height: 1.5;
+    }
+    
+    .sf-field:hover {
+      border-color: var(--border-focus);
+    }
+    
+    .sf-field:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 4px var(--purple-100), var(--shadow-sm);
+      background: #ffffff;
+    }
+    
+    .sf-field::placeholder {
+      color: #94a3b8;
+    }
+    
+    textarea.sf-field {
+      resize: vertical;
+      min-height: 100px;
+      font-family: inherit;
+    }
+    
+    select.sf-field {
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+      background-position: right 12px center;
+      background-repeat: no-repeat;
+      background-size: 20px;
+      padding-right: 40px;
+      appearance: none;
+    }
+    
+    input[type="radio"],
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      accent-color: var(--purple);
+      flex-shrink: 0;
+    }
+    
+    .req {
+      color: var(--danger);
+      margin-left: 2px;
+      font-weight: 700;
+    }
+    
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 2px solid var(--border);
+    }
+    
+    .btn {
+      appearance: none;
+      border: 2px solid var(--border);
+      background: white;
+      color: var(--text);
+      border-radius: 10px;
+      padding: 12px 24px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 15px;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: var(--shadow-sm);
+      letter-spacing: -0.01em;
+      font-family: inherit;
+    }
+    
+    .btn:hover:not(:disabled) {
+      background: var(--bg);
+      border-color: var(--border-focus);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .btn:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .btn.primary {
+      background: linear-gradient(135deg, var(--purple) 0%, var(--purple-light) 100%);
+      border-color: var(--purple);
+      color: white;
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+    }
+    
+    .btn.primary:hover:not(:disabled) {
+      background: linear-gradient(135deg, var(--purple-dark) 0%, var(--purple) 100%);
+      border-color: var(--purple-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(124, 58, 237, 0.35);
+    }
+    
+    .btn.primary:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(124, 58, 237, 0.25);
+    }
+    
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+    
+    .dateInput input.sf-field { 
+      width: 100%; 
+    }
+    
+    br { 
+      display: none; 
+    }
+    
+    /* Enhanced radio button and checkbox labels */
+    label:has(input[type="radio"]),
+    label:has(input[type="checkbox"]) {
+      padding: 10px 12px;
+      border-radius: 8px;
+      transition: all 0.2s ease;
+      margin: 0;
+    }
+    
+    label:has(input[type="radio"]):hover,
+    label:has(input[type="checkbox"]):hover {
+      background: var(--purple-50);
+    }
+    
+    /* Info boxes styling */
+    div[style*="background: #fff9e6"],
+    div[style*="background: #f9fafb"] {
+      border-radius: 12px !important;
+      box-shadow: var(--shadow-sm) !important;
+    }
+    
+    /* Links */
+    a {
+      color: var(--purple);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s ease;
+    }
+    
+    a:hover {
+      color: var(--purple-dark);
+      text-decoration: underline;
+    }
+    
+    /* Strong text */
+    strong {
+      font-weight: 700;
+      color: var(--text);
+    }
+    
+    /* Section Headers */
+    .section-header {
+      background: linear-gradient(135deg, var(--purple) 0%, var(--purple-light) 100%);
+      color: white;
+      padding: 20px 24px;
+      margin: -32px -32px 28px;
+      border-radius: 12px 12px 0 0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+    }
+    
+    .section-header h2 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+      color: white;
+      border: none;
+      padding: 0;
+    }
+    
+    /* Subsection Headers */
+    .subsection-header {
+      margin-top: 32px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--purple-100);
+    }
+    
+    .subsection-header h3 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.01em;
+    }
+    
+    /* Radio and Checkbox Groups */
+    .option-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-top: 8px;
+      padding: 8px;
+      background: var(--bg);
+      border-radius: 8px;
+      border: 1px solid var(--border);
+    }
+    
+    .option-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 6px;
+      background: white;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+    
+    .option-item:hover {
+      background: var(--purple-50);
+      border-color: var(--purple-200);
+    }
+    
+    .option-item input[type="radio"]:checked ~ *,
+    .option-item input[type="checkbox"]:checked ~ * {
+      font-weight: 600;
+    }
+    
+    .option-item:has(input:checked) {
+      background: var(--purple-50);
+      border-color: var(--purple);
+      box-shadow: 0 0 0 2px var(--purple-100);
+    }
+    
+    input[type="radio"],
+    input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+      accent-color: var(--purple);
+      flex-shrink: 0;
+      margin: 0;
+    }
+    
+    /* Full Width Fields */
+    .full-width {
+      grid-column: 1 / -1;
+    }
+    
+    /* Field Groups */
+    .field-group {
+      background: var(--bg);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      margin-top: 16px;
+    }
+    
+    .field-group-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 16px;
+      display: block;
+    }
+    
+    /* Info Box */
+    .info-box {
+      background: linear-gradient(135deg, var(--purple-50) 0%, #fef3c7 100%);
+      border: 2px solid var(--purple-200);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 20px 0;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .info-box p {
+      margin: 0 0 10px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    
+    .info-box p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .info-box ul {
+      margin: 10px 0 0 20px;
+      padding: 0;
+    }
+    
+    .info-box li {
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+    
+    /* Warning Box */
+    .warning-box {
+      background: #fff9e6;
+      border: 2px solid #ffd666;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin: 20px 0;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .warning-box strong {
+      color: var(--warning);
+    }
+    
+    /* Spacing Utilities */
+    .mt-4 { margin-top: 16px; }
+    .mt-6 { margin-top: 24px; }
+    .mb-4 { margin-bottom: 16px; }
+    .mb-6 { margin-bottom: 24px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="topbar"></div>
+      <div class="header">
+        <div class="meta">
+          <img src="SLSLS+Logo+Full+Color+Rectangle+(480+×+100+px)+(5).webp" alt="SLSLS Logo" class="logo-img">
+        </div>
+        <div class="progress">
+          <small id="stepText">Page 1 of 5</small>
+          <div class="bar" aria-hidden="true"><span id="barFill"></span></div>
+        </div>
+      </div>
+
+      <form action="https://webto.salesforce.com/servlet/servlet.WebToLead?encoding=UTF-8&orgId=00Dfn000006kbYz" method="POST" novalidate>
+        <!-- Preserve Salesforce hidden fields & debug comments -->
+        <div style="display:none">
+          <input type=hidden name="oid" value="00Dfn000006kbYz">
+          <input type=hidden name="retURL" value="https://www.google.com">
+          
+          <!-- Debug mode enabled - check the email for submission details -->
+          <input type="hidden" name="debug" value="1">
+          <input type="hidden" name="debugEmail" value="sumanthp@msginnovata.com">
+        </div>
+
+        <section class="step" data-step="1">
+          
+      <div class="intro-card">
+        <h1>Application for Free Legal Services</h1>
+        <p><strong>If you are a survivor of intimate partner violence and cannot afford to hire a lawyer, St. Louis Survivors Legal Support (SLSLS) may be able to help.</strong></p>
+
+        <p>We provide free legal representation to assist eligible survivors with:</p>
+        <ul>
+          <li><strong>Orders of Protection (OP)</strong> against an abusive partner, and</li>
+          <li><strong>Custody determinations</strong> involving children they share with that partner.</li>
+        </ul>
+
+        <p><strong>What is an Order of Protection (OP)?</strong> An OP is a court order designed to help keep you safe. It can prohibit an abusive person from contacting or communicating with you. Violating an OP can result in criminal penalties.</p>
+
+        <p><strong>Need help filing an OP right away?</strong> If you have not yet filed a petition for an OP and would like assistance, please call us at <strong>314-NOW-STOP (314-669-7867)</strong>.</p>
+
+        <p>To apply for SLSLS's services, please complete this application. A member of our team will review your submission and follow up with you as soon as possible. This application is <strong>confidential</strong> and will only be reviewed by SLSLS staff and, if accepted, your attorney(s). If completing this form may put your <strong>safety</strong> at risk, please use a safe device and location or call us directly.</p>
+
+        <p>SLSLS represents clients in OP and related custody matters in <strong>St. Louis County only</strong>. We can also connect applicants with <strong>referrals and resources for additional support</strong>, including housing, counseling, safety planning, employment assistance, and more.</p>
+
+        <p>SLSLS is a 501(c)(3) nonprofit organization. Completing this application does not guarantee legal representation. Services are provided based on eligibility, organizational capacity, and other factors.</p>
+
+        <div class="info-box">
+          <strong>💡 Tip:</strong> You can use the <strong>Back</strong> button to review answers before submitting.
+        </div>
+      </div>
+
+        </section>
+
+        <section class="step" data-step="2">
+          <h2>INITIAL OVERVIEW</h2>
+          <div class="grid">
+            <div class="form-row">
+              <label class="sf-label" for="first_name">What is your first name?</label>
+              <input class="sf-field" id="first_name" maxlength="40" name="first_name" type="text" required>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label" for="last_name">What is your last name?</label>
+              <input class="sf-field" id="last_name" maxlength="80" name="last_name" type="text" required>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">What is your date of birth?</label>
+              <input class="sf-field" id="00NbV000002fbGz" name="00NbV000002fbGz" type="date" required>
+            </div>
+            
+            <div class="form-row full-width">
+              <label class="sf-label">What is the opposing party's full name?</label>
+              <p class="hint">If there are multiple opposing parties, please list each of their full names.</p>
+              <input class="sf-field" id="00NbV000002fbk1" maxlength="255" name="00NbV000002fbk1" type="text" required>
+            </div>
+            
+            <div class="form-row full-width">
+              <label class="sf-label">What is the opposing party's date of birth?</label>
+              <p class="hint">If there are multiple opposing parties, please list each of their dates of birth and specify which date goes with which party.</p>
+              <input class="sf-field" id="00NbV000002faw3" name="00NbV000002faw3" type="text" required>
+            </div>
+            
+            <div class="form-row full-width">
+              <label class="sf-label">Is your case in St. Louis County Circuit Court?<span class="req">*</span></label>
+              <p class="hint">For a case to be in St. Louis County Circuit Court, at least one of the following must be true: (a) the domestic violence occurred in St. Louis County, (b) you live in St. Louis County, or (c) the respondent (the person that abused you) "can be found" in St. Louis County.</p>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" id="00NbV000002faw2_yes" name="00NbV000002faw2" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" id="00NbV000002faw2_no" name="00NbV000002faw2" value="No" required>
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="3">
+          <h2>FINANCIAL INFORMATION</h2>
+          <div class="grid">
+            <div class="form-row full-width">
+              <label class="sf-label">Do you have access to resources to hire a lawyer?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" id="00NbV000002fbKD_yes" name="00NbV000002fbKD" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" id="00NbV000002fbKD_no" name="00NbV000002fbKD" value="No" required>
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row full-width">
+              <label class="sf-label">If applicable, please state your job title and the name of your employer.</label>
+              <input class="sf-field" id="00NbV000002fdPF" maxlength="255" name="00NbV000002fdPF" type="text" required>
+            </div>
+            
+            <div class="form-row full-width">
+              <label class="sf-label">What is your gross income?</label>
+              <p class="hint">Indicate annually, monthly, bi-weekly or hourly</p>
+              <input class="sf-field" id="00NbV000002noVZ" name="00NbV000002noVZ" type="text" required>
+            </div>
+            
+            <div class="form-row full-width">
+              <label class="sf-label">How many dependents do you have?</label>
+              <input class="sf-field" id="00NbV000002noYn" name="00NbV000002noYn" type="number" required>
+            </div>
+            
+            <div class="form-row full-width">
+              <label class="sf-label">Are there any other extenuating circumstances that make it such that you cannot afford to hire a private attorney?</label>
+              <textarea class="sf-field" id="00NbV000002noiT" name="00NbV000002noiT" rows="5"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="4">
+          <h2>RELATIONSHIP STATUS</h2>
+          <div class="grid">
+            <div class="form-row full-width">
+              <label class="sf-label">What is your relationship to the opposing party?<span class="req">*</span></label>
+              <p class="hint">If there are multiple opposing parties, please choose "Other" and indicate your relationship with each.</p>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" id="00NbV000002fbwv_spouse" name="00NbV000002fbwv" value="Spouse" required>
+                  <span>Spouse</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" id="00NbV000002fbwv_exspouse" name="00NbV000002fbwv" value="Ex-spouse" required>
+                  <span>Ex-spouse</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" id="00NbV000002fbwv_partner" name="00NbV000002fbwv" value="Current/former romantic partner" required>
+                  <span>Current/former romantic partner</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" id="00NbV000002fbwv_other" name="00NbV000002fbwv" value="Other" required>
+                  <span>Other</span>
+                </label>
+              </div>
+              <div id="relationshipOtherField" style="display: none; margin-top: 12px;">
+                <input class="sf-field" id="00NbV000002fbx0" name="00NbV000002fbx0" type="text" placeholder="Please specify your relationship...">
+              </div>
+            </div>
+          </div>
+          
+          <div class="subsection-header mt-6">
+            <h3>MARRIED</h3>
+          </div>
+          <div class="grid">
+            <div class="form-row full-width">
+              <label class="sf-label">Has either party filed for dissolution (a divorce)?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" id="00NbV000002o2ez_yes" name="00NbV000002o2ez" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" id="00NbV000002o2ez_no" name="00NbV000002o2ez" value="No" required>
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="subsection-header mt-6">
+            <h3>DIVORCED</h3>
+          </div>
+          <div class="grid">
+            <div class="form-row full-width">
+              <label class="sf-label">Do/did you have a divorce attorney?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" id="00NbV000002o2f4_yes" name="00NbV000002o2f4" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" id="00NbV000002o2f4_no" name="00NbV000002o2f4" value="No" required>
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="5">
+          <h2>ORDER OF PROTECTION</h2>
+          <div class="grid">
+            <div class="form-row full-width">
+              <label class="sf-label">Which option(s) best describes the Order(s) of Protection in this matter?<span class="req">*</span></label>
+              <p class="hint">Check all that apply.</p>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="checkbox" name="00NbV000002fOPa" value="Adult OP - Seeking">
+                  <span>I am seeking (or considering seeking) an Adult OP against the other party</span>
+                </label>
+                <label class="option-item">
+                  <input type="checkbox" name="00NbV000002fOPb" value="Child OP - Seeking">
+                  <span>I am seeking (or considering seeking) a Child OP against the other party</span>
+                </label>
+                <label class="option-item">
+                  <input type="checkbox" name="00NbV000002fOPc" value="Adult OP - Filed Against Me">
+                  <span>The other party filed an Adult OP against me</span>
+                </label>
+                <label class="option-item">
+                  <input type="checkbox" name="00NbV000002fOPd" value="Child OP - Filed Against Me">
+                  <span>The other party filed a Child OP against me</span>
+                </label>
+                <label class="option-item">
+                  <input type="checkbox" name="00NbV000002fOPe" value="Renewal/Extension">
+                  <span>I am seeking a renewal/extension of my Full OP</span>
+                </label>
+                <label class="option-item">
+                  <input type="checkbox" name="00NbV000002fOPf" value="OP Violation">
+                  <span>I am seeking assistance because my Full OP was violated</span>
+                </label>
+                <label class="option-item">
+                  <input type="checkbox" name="00NbV000002fOPg" value="Other" id="00NbV000002fOPg">
+                  <span>Other:</span>
+                  <input type="text" class="sf-field" id="00NbV000002fOPg_text" name="00NbV000002fOPg_text" style="flex: 1; min-width: 250px; margin-left: 8px;" placeholder="Please specify">
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row full-width">
+              <label class="sf-label">Have you already filed a petition for an order of protection (or has one been filed against you)?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fOPh" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fOPh" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="6">
+          <div class="section-header">
+            <h2>CONTACT EMA</h2>
+          </div>
+          <div style="font-size: 15px; line-height: 1.7; color: var(--text);">
+            <p>Please call us at <strong>314-NOW-STOP (314-669-7867)</strong> if you would like assistance completing your petition.</p>
+          </div>
+        </section>
+
+        <section class="step" data-step="7">
+          <div class="section-header">
+            <h2>PETITION INFORMATION</h2>
+          </div>
+          <div class="grid">
+            <div class="form-row full-width">
+              <label class="sf-label">What is the case number?<span class="req">*</span></label>
+              <p class="hint">This is the number at the top right of your order that starts with 25SL-PN... If there are multiple OPs, please list all case numbers.</p>
+              <input class="sf-field" id="00NbV000002fccr" maxlength="30" name="00NbV000002fccr" type="text" required>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">When is your court date?<span class="req">*</span></label>
+              <input class="sf-field" id="00NbV000002fCourtDate" name="00NbV000002fCourtDate" type="date" required>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">What time is your hearing?<span class="req">*</span></label>
+              <input class="sf-field" id="00NbV000002fHearingTime" name="00NbV000002fHearingTime" type="time" required>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">What courtroom is your hearing in?<span class="req">*</span></label>
+              <input class="sf-field" id="00NbV000002fCourtroom" name="00NbV000002fCourtroom" type="text" required>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="8">
+          <h2>CLIENT INFORMATION</h2>
+          <div class="grid">
+            <div class="form-row">
+              <label class="sf-label">What is the best phone number for you?<span class="req">*</span></label>
+              <input class="sf-field" id="phone" name="phone" type="tel" required>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Is it safe for SLSLS to text you at this number?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fSafeText" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fSafeText" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">What is your email address?<span class="req">*</span></label>
+              <input class="sf-field" id="email" name="email" type="email" required>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">What is your residential address?<span class="req">*</span></label>
+              <input class="sf-field" id="street" name="street" type="text" required>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">What is your city?<span class="req">*</span></label>
+              <input class="sf-field" id="city" name="city" type="text" required>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">What is your zip code?<span class="req">*</span></label>
+              <input class="sf-field" id="zip" name="zip" type="text" maxlength="10" required>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">What is your age?<span class="req">*</span></label>
+              <input class="sf-field" id="00NbV000002zfI1" name="00NbV000002zfI1" type="number" min="0" max="120" required>
+            </div>
+            
+            <div class="form-row full-width">
+              <label class="sf-label">Please provide the name and number of an emergency contact in the event we cannot reach you.<span class="req">*</span></label>
+              <input class="sf-field" id="00NbV000002zfID" name="00NbV000002zfID" type="text" required>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="9">
+          <h2>APPLICANT DEMOGRAPHICS</h2>
+          <p style="font-size: 13px; line-height: 1.6; margin: 0 0 20px; color: var(--muted);">
+            As a nonprofit, <strong>SLSLS gathers and tracks applicant demographic</strong> information. You are not required to answer the questions in this section, but your answers (or non-answers) will not affect your application.
+          </p>
+          <div class="grid">
+            <div class="form-row">
+              <label class="sf-label">What is your race?</label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fcxp" value="White/Caucasian">
+                  <span>White/Caucasian</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fcxp" value="Black/African American">
+                  <span>Black/African American</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fcxp" value="Hispanic">
+                  <span>Hispanic</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fcxp" value="Asian">
+                  <span>Asian</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fcxp" value="Other">
+                  <span>Other</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">What is your gender identity?</label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002zfIc" value="Female">
+                  <span>Female</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002zfIc" value="Male">
+                  <span>Male</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002zfIc" value="Non-binary">
+                  <span>Non-binary</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002zfIc" value="Other">
+                  <span>Other</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">What is your sexual orientation?</label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fdAj" value="Heterosexual (Straight)">
+                  <span>Heterosexual (Straight)</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fdAj" value="Lesbian">
+                  <span>Lesbian</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fdAj" value="Gay">
+                  <span>Gay</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fdAj" value="Bisexual">
+                  <span>Bisexual</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fdAj" value="Pansexual">
+                  <span>Pansexual</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fdAj" value="Asexual">
+                  <span>Asexual</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fdAj" value="Other">
+                  <span>Other</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">What are your pronouns?</label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002zfIh" value="she/her/hers">
+                  <span>she/her/hers</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002zfIh" value="he/him/his">
+                  <span>he/him/his</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002zfIh" value="they/them/theirs">
+                  <span>they/them/theirs</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002zfIh" value="Please refer to me by my name">
+                  <span>Please refer to me by my name</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002zfIh" value="Other">
+                  <span>Other</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">What is your highest level of education?</label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="checkbox" name="00NbV000002zfIm" value="Trade or Vocational Certificate">
+                  <span>Trade or Vocational Certificate</span>
+                </label>
+                <label class="option-item">
+                  <input type="checkbox" name="00NbV000002zfIm" value="High/General Education Development">
+                  <span>High/General Education Development</span>
+                </label>
+                <label class="option-item">
+                  <input type="checkbox" name="00NbV000002zfIm" value="High School Diploma">
+                  <span>High School Diploma</span>
+                </label>
+                <label class="option-item">
+                  <input type="checkbox" name="00NbV000002zfIm" value="Some College (no degree)">
+                  <span>Some College (no degree)</span>
+                </label>
+                <label class="option-item">
+                  <input type="checkbox" name="00NbV000002zfIm" value="Undergraduate Degree">
+                  <span>Undergraduate Degree</span>
+                </label>
+                <label class="option-item">
+                  <input type="checkbox" name="00NbV000002zfIm" value="Master's Degree">
+                  <span>Master's Degree</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="10">
+          <h2>OPPOSING PARTY INFORMATION</h2>
+          <p style="font-size: 15px; line-height: 1.6; margin: 0 0 20px; padding: 12px; background: var(--purple-2); border-radius: 8px; color: var(--text);">
+            If there are <strong>multiple opposing parties</strong>, please provide the requested information for each party. For each question, <strong>clearly specify the party to which the information belongs</strong>.
+          </p>
+          <div class="grid">
+            <div class="form-row full-width">
+              <label class="sf-label">What is the opposing party's residential address?<span class="req">*</span></label>
+              <p class="hint">Please include: city, state, and zip code</p>
+              <input class="sf-field" id="00NbV000002zfQ5" name="00NbV000002zfQ5" type="text" required>
+            </div>
+            
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">If applicable, state their job title and the name of their employer.<span class="req">*</span></label>
+              <input class="sf-field" id="00NbV000002feZp" name="00NbV000002feZp" type="text" required>
+            </div>
+            
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">What is the opposing party's work address?<span class="req">*</span></label>
+              <input class="sf-field" id="00NbV000002o34n" name="00NbV000002o34n" type="text" required>
+            </div>
+            
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">Has the opposing party ever lived out of state?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" id="00NbV000002o36P_yes" name="00NbV000002o36P" value="Yes" required style="margin: 0;">
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" id="00NbV000002o36P_no" name="00NbV000002o36P" value="No" style="margin: 0;">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">If yes, where did they live?</label>
+              <input class="sf-field" id="00NbV000002o381" name="00NbV000002o381" type="text">
+            </div>
+          </div>
+          
+          <h2 style="margin-top: 28px;">CHILDREN</h2>
+          <div class="grid">
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">Do you have children?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002o3G5" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002o3G5" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="11">
+          <h2>CHILDREN IN THE HOME</h2>
+          <div class="grid">
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">Do your children live in your home?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" id="PLACEHOLDER_ChildrenLiveInHome_yes" name="PLACEHOLDER_ChildrenLiveInHome" value="Yes">
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" id="PLACEHOLDER_ChildrenLiveInHome_no" name="PLACEHOLDER_ChildrenLiveInHome" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+              <!-- Internal navigation field only - not submitted to Salesforce -->
+              <input type="hidden" id="00NbV000002zfcz" name="00NbV000002zfcz" value="">
+            </div>
+            
+            <div id="childrenDetailsFields" style="display: none; grid-column: 1 / -1;">
+              <div class="form-row" style="grid-column: 1 / -1;">
+                <label class="sf-label">How many children in your home are 0-5 years old?<span class="req">*</span></label>
+                <input class="sf-field" id="00NbV000002feht" name="00NbV000002feht" type="number" min="0">
+              </div>
+              
+              <div class="form-row" style="grid-column: 1 / -1;">
+                <label class="sf-label">How many children in your home are 6-11 years old?<span class="req">*</span></label>
+                <input class="sf-field" id="00NbV000002fel7" name="00NbV000002fel7" type="number" min="0">
+              </div>
+              
+              <div class="form-row" style="grid-column: 1 / -1;">
+                <label class="sf-label">How many children in your home are 12-14 years old?<span class="req">*</span></label>
+                <input class="sf-field" id="00NbV000002feDG" name="00NbV000002feDG" type="number" min="0">
+              </div>
+              
+              <div class="form-row" style="grid-column: 1 / -1;">
+                <label class="sf-label">How many children in your home are 15-19 years old?<span class="req">*</span></label>
+                <input class="sf-field" id="00NbV000002feoL" name="00NbV000002feoL" type="number" min="0">
+              </div>
+              
+              <div class="form-row" style="grid-column: 1 / -1;">
+                <label class="sf-label">What is the child(ren)'s race?<span class="req">*</span></label>
+                <div class="option-group">
+                  <label class="option-item">
+                    <input type="radio" name="00NbV000002fuLF" value="White/Caucasian">
+                    <span>White/Caucasian</span>
+                  </label>
+                  <label class="option-item">
+                    <input type="radio" name="00NbV000002fuLF" value="Black/African American">
+                    <span>Black/African American</span>
+                  </label>
+                  <label class="option-item">
+                    <input type="radio" name="00NbV000002fuLF" value="Hispanic">
+                    <span>Hispanic</span>
+                  </label>
+                  <label class="option-item">
+                    <input type="radio" name="00NbV000002fuLF" value="Asian">
+                    <span>Asian</span>
+                  </label>
+                  <label class="option-item">
+                    <input type="radio" name="00NbV000002fuLF" value="Other" id="00NbV000002fuLF_other">
+                    <span>Other:</span>
+                    <input type="text" class="sf-field" id="00NbV000002fuLF_other_text" name="00NbV000002fuLF_other_text" style="flex: 1; min-width: 200px;" placeholder="Please specify">
+                  </label>
+                </div>
+              </div>
+              
+              <div class="form-row" style="grid-column: 1 / -1;">
+                <label class="sf-label">What is the child(ren)'s zip code?<span class="req">*</span></label>
+                <input class="sf-field" id="00NbV000002xpLW" name="00NbV000002xpLW" type="text" maxlength="10">
+              </div>
+            </div>
+            
+            <div id="childrenInCommonQuestion" style="display: none; grid-column: 1 / -1;">
+              <div class="form-row" style="grid-column: 1 / -1;">
+                <label class="sf-label">Do you have children in common with the opposing party?<span class="req">*</span></label>
+                <div class="option-group">
+                  <label class="option-item">
+                    <input type="radio" id="00NbV000002xqsf_page9_yes" name="PLACEHOLDER_ChildrenInCommon_page11" value="Yes">
+                    <span>Yes</span>
+                  </label>
+                  <label class="option-item">
+                    <input type="radio" id="00NbV000002xqsf_page9_no" name="PLACEHOLDER_ChildrenInCommon_page11" value="No">
+                    <span>No</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="12">
+          <h2>CHILDREN IN COMMON</h2>
+          <div class="grid">
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">Do you have children in common with the opposing party?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002xqsf" id="00NbV000002xqsf_yes" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002xqsf" id="00NbV000002xqsf_no" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="13">
+          <h2>CHILD ORDERS OF PROTECTION</h2>
+          <div class="grid">
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">Are you or the opposing party seeking a Child OP?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002xrDd" id="00NbV000002xrDd_yes" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002xrDd" id="00NbV000002xrDd_no" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="14">
+          <h2>CHILD IN COMMON</h2>
+          <div class="grid">
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">Is it for a child who is also the child of the opposing party?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002xrn7" id="00NbV000002xrn7_yes" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002xrn7" id="00NbV000002xrn7_no" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="15">
+          <h2>CUSTODY</h2>
+          <p style="font-size: 13px; line-height: 1.6; margin: 0 0 20px; color: var(--muted);">
+            The following questions help us understand whether we can assist with custody. Not all applicants will be eligible, and answering 'no' will not affect your OP application.
+          </p>
+          <div class="grid">
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">Are you seeking help from SLSLS with a custody determination involving your children?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002xroj" id="00NbV000002xroj_yes" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002xroj" id="00NbV000002xroj_no" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div id="childOPQuestion" class="form-row" style="grid-column: 1 / -1; display: none; margin-top: 20px;">
+              <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 12px;">CHILD ORDERS OF PROTECTION</h3>
+              <label class="sf-label">Are you or the opposing party seeking a Child OP?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002xrChildOP" id="00NbV000002xrChildOP_yes" value="Yes">
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002xrChildOP" id="00NbV000002xrChildOP_no" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+              
+              <div id="childInCommonPage15" style="display: none; margin-top: 20px;">
+                <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 12px;">CHILD IN COMMON</h3>
+                <label class="sf-label">Is it for a child who is also the child of the opposing party?<span class="req">*</span></label>
+                <div class="option-group">
+                  <label class="option-item">
+                    <input type="radio" name="00NbV000002xrn7_page15" id="00NbV000002xrn7_page15_yes" value="Yes">
+                    <span>Yes</span>
+                  </label>
+                  <label class="option-item">
+                    <input type="radio" name="00NbV000002xrn7_page15" id="00NbV000002xrn7_page15_no" value="No">
+                    <span>No</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="16">
+          <h2>CUSTODY - ADDITIONAL INFORMATION</h2>
+          <div class="grid">
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">How are you interested in seeking custody?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" id="PLACEHOLDER_CustodyType_op" value="As part of my Order of Protection">
+                  <span>As part of my Order of Protection</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" id="PLACEHOLDER_CustodyType_separate" value="As a separate custody case">
+                  <span>As a separate custody case</span>
+                </label>
+              </div>
+              <!-- Internal navigation field only - not submitted to Salesforce -->
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="17">
+          <h2>CHILD IN COMMON - ADDITIONAL INFORMATION</h2>
+          <div class="grid">
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">Is there a pending or prior custody case pertaining to that child?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fuQ5" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fuQ5" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="18">
+          <h2>PRIOR CUSTODY DETERMINATION</h2>
+          <div class="grid">
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">Please provide the case number of the pending or prior custody case.<span class="req">*</span></label>
+              <input class="sf-field" id="00NbV000002fuRh" name="00NbV000002fuRh" type="text" required>
+            </div>
+            
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">Have you had prior legal representation in that case?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002xr2L" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002xr2L" value="No" required>
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">If there is a scheduled trial date, when is it set?</label>
+              <input class="sf-field" id="00NbV000002xr3x" name="00NbV000002xr3x" type="text" size="12">
+              <!-- Field ID: 00NbV000002xr3x -->
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="19">
+          <h2>LETHALITY ASSESSMENT</h2>
+          <div class="grid">
+            <div class="form-row">
+              <label class="sf-label">Has your partner been verbally or emotionally abusive towards you?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fubN" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fubN" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Have you left your partner during the past year?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwGb" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwGb" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Does your partner control most or all of your daily activities?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwID" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwID" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Does your partner allow you no privacy or monitor your calls?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwJp" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwJp" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Does your partner throw or break things when angry?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwN3" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwN3" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Has your partner ever locked you out of your home or not allowed you to leave the home?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwOf" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwOf" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Has your partner been physically violent towards you?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwWj" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwWj" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Has the physical violence increased in severity or frequency during the past year?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwZx" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwZx" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Has your partner ever been violent towards you while you were pregnant?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwbZ" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwbZ" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Has your partner ever put their hands around your neck and made it difficult to breathe?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwmr" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwmr" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">If you answered "Yes" to the previous question, has this happened more than once?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwoT" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fwoT" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">If your partner has put their hands around your neck and made it difficult to breathe, did it make you dizzy/pass out?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fx7p" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fx7p" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Is your partner constantly or violently jealous?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fx9R" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fx9R" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Has your partner threatened to kill you?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxB3" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxB3" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Do you believe your partner is capable of killing you?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxCf" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxCf" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Has your partner ever used a weapon or object to hurt or threaten you?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxFt" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxFt" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Does your partner have a gun or have access to one?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxJ7" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxJ7" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Has your partner threatened to harm the children?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxKj" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxKj" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Has your partner ever forced you to have sex when you didn't want it?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxNx" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxNx" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Is your partner unemployed?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxRB" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxRB" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Does your partner use drugs or alcohol?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxcT" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxcT" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Has your partner ever threatened or tried to kill themself?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxe5" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxe5" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Do you think your partner is stalking you?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxpN" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxpN" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <label class="sf-label">Have you ever threatened or tried to commit suicide?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxz3" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002fxz3" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="20">
+          <h2>PRIOR OPs</h2>
+          <div class="grid">
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">To your knowledge, has anyone else ever filed an OP against the opposing party?</label>
+              <p class="hint" style="margin: -2px 0 6px; font-size: 12px;">If so, please provide any information you have relating to that matter.</p>
+              <textarea class="sf-field" id="00NbV000002o53N" name="00NbV000002o53N" rows="4"></textarea>
+            </div>
+            
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">Please provide the case number(s) from any prior OP cases between you and the opposing party, and indicate whether a full OP was granted.</label>
+              <textarea class="sf-field" id="00NbV000002o51l" name="00NbV000002o51l" rows="4"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="21">
+          <h2>CRIMINAL HISTORY</h2>
+          <div class="grid">
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">To your knowledge, does the opposing party have a criminal history?</label>
+              <p class="hint" style="margin: -2px 0 6px; font-size: 12px;">If so, please state the crime(s) with which they were charged, the state in which they were charged, and whether they have been convicted/found guilty.</p>
+              <textarea class="sf-field" id="00NbV000002fy3t" name="00NbV000002fy3t" rows="4"></textarea>
+            </div>
+            
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">Have you ever been convicted of a crime?</label>
+              <p class="hint" style="margin: -2px 0 6px; font-size: 12px;">If so, please state the crime you were convicted of and the year of conviction.</p>
+              <textarea class="sf-field" id="00NbV000002o5D3" name="00NbV000002o5D3" rows="4"></textarea>
+            </div>
+            
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">Do you currently have any warrants pending against you?</label>
+              <p class="hint" style="margin: -2px 0 6px; font-size: 12px;">If so, SLSLS <em>may</em> be able to assist you with them.</p>
+              <textarea class="sf-field" id="00NbV000002fyAL" name="00NbV000002fyAL" rows="4"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="22">
+          <h2>REFERRALS</h2>
+          <div class="grid">
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">How did you hear about St. Louis Survivors Legal Support?<span class="req">*</span></label>
+              <input class="sf-field" id="00NbV000002fyIP" name="00NbV000002fyIP" type="text" required>
+            </div>
+            
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">If you are interested in career counseling or employment services, do we have your permission to share your name and contact information with our partner agency, the MERS Goodwill ACCESS Program?<span class="req">*</span></label>
+              <p class="hint" style="margin: -2px 0 8px; font-size: 12px;">This is a program that provides free employment services but it does not guarantee employment. If you choose Yes, this is the only outside agency with whom we would share your contact info.</p>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002o5Ef" value="Yes" required>
+                  <span>Yes</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002o5Ef" value="No">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="23">
+          <h2>NEXT STEPS</h2>
+          
+          <p style="font-size: 15px; margin: 16px 0 24px; line-height: 1.6;">
+            Email the following documents to <strong style="color: var(--purple);">kylie.cain@slsls.org</strong>:
+          </p>
+          
+          <ol style="margin: 0 0 20px 24px; padding: 0; line-height: 1.8;">
+            <li style="margin-bottom: 8px;">A copy of your <strong>driver's license</strong>, and</li>
+            <li style="margin-bottom: 8px;">If a petition has already been filed, <strong>every page of the petition(s)</strong>.</li>
+          </ol>
+          
+          <div style="margin: 24px 0; padding: 16px; background: #f9fafb; border-radius: 10px; border: 1px solid var(--border);">
+            <p style="margin: 0; font-size: 14px; color: var(--text);"><strong>Your application is not complete until</strong> you have submitted these documents per the instructions below.</p>
+          </div>
+          
+          <div style="margin: 20px 0; padding: 14px 16px; background: #fff9e6; border: 1px solid #ffd666; border-radius: 10px;">
+            <p style="margin: 0; font-size: 14px; font-weight: 600;">Your COMPLETE application must be submitted at least one week before your court date.</p>
+          </div>
+          
+          <p style="font-size: 15px; margin: 24px 0 16px; font-weight: 600;">Instructions for scanning and emailing a document as a PDF in Gmail on an iPhone:</p>
+          
+          <div style="background: #f9fafb; border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin: 16px 0;">
+            <p style="font-size: 14px; margin: 0 0 12px; font-weight: 600;">Step 1: Open the Scan Feature</p>
+            <p style="font-size: 14px; margin: 0 0 16px; line-height: 1.6;">In the email body, double-tap the screen to open the options menu. Swipe through the options and tap "Scan Document."</p>
+            
+            <p style="font-size: 14px; margin: 0 0 12px; font-weight: 600;">Step 2: Scan Your Document</p>
+            <p style="font-size: 14px; margin: 0 0 8px; line-height: 1.6;">Hold your phone over the document so the white page fits inside the screen.</p>
+            <p style="font-size: 14px; margin: 0 0 16px; line-height: 1.6;">Your phone will automatically take a picture, or you can tap the shutter button (the white circle) to take the photo manually.</p>
+            
+            <p style="font-size: 14px; margin: 0 0 12px; font-weight: 600;">Step 3: Adjust the Scan</p>
+            <p style="font-size: 14px; margin: 0 0 8px; line-height: 1.6;">If the scan looks good, tap "Keep Scan." If not, tap "Retake" and try again.</p>
+            <p style="font-size: 14px; margin: 0 0 8px; line-height: 1.6;">If you have more pages to scan, tap "+" to add another page and scan it.</p>
+            <p style="font-size: 14px; margin: 0 0 16px; line-height: 1.6;">When you're done scanning all the pages, tap "Save."</p>
+            
+            <p style="font-size: 14px; margin: 0 0 12px; font-weight: 600;">Step 4: Check and Send</p>
+            <p style="font-size: 14px; margin: 0 0 8px; line-height: 1.6;">Your scanned pages will be saved as a single PDF file and attached to your email.</p>
+            <p style="font-size: 14px; margin: 0 0 8px; line-height: 1.6;">Tap on the file to make sure all pages are included and facing the right way. If needed, use the rotate option before saving.</p>
+            <p style="font-size: 14px; margin: 0; line-height: 1.6;">When everything looks good, tap the "Send" button.</p>
+          </div>
+          
+          <div style="margin: 32px 0 24px 0;">
+            <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; padding: 14px; background: white; border: 2px solid var(--border); border-radius: 10px; transition: all 0.2s ease;">
+              <input type="checkbox" name="00NbV000002zfUnderstand" id="00NbV000002zfUnderstand" value="I understand." required style="margin-top: 3px; min-width: 18px; min-height: 18px; accent-color: var(--purple);">
+              <span style="font-size: 15px; line-height: 1.5; font-weight: 600;">I understand.</span>
+            </label>
+          </div>
+          
+          <div style="margin: 32px 0 0 0; padding: 24px 0 0 0; border-top: 2px solid var(--border);">
+            <p style="font-size: 16px; font-weight: 600; margin: 0 0 8px; color: var(--text);">Please email kylie.cain@slsls.org either or both of the following:</p>
+            <p style="font-size: 14px; margin: 0 0 20px; color: var(--text-secondary);">These are not required but may be very helpful to any lawyer SLSLS provides.</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 14px;">
+              <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; padding: 16px; background: white; border: 2px solid var(--border); border-radius: 10px; transition: all 0.2s ease;">
+                <input type="checkbox" name="00NbV000002zfTimeline" id="00NbV000002zfTimeline" value="Timeline" style="margin-top: 3px; min-width: 18px; min-height: 18px; accent-color: var(--purple);">
+                <span style="font-size: 14px; line-height: 1.6; color: var(--text);">A timeline of the abuse that includes the approximate dates, locations, brief descriptions of what happened, and a description of any evidence and/or witnesses you have of each incident.</span>
+              </label>
+              
+              <label style="display: flex; align-items: flex-start; gap: 12px; cursor: pointer; padding: 16px; background: white; border: 2px solid var(--border); border-radius: 10px; transition: all 0.2s ease;">
+                <input type="checkbox" name="00NbV000002zfEvidence" id="00NbV000002zfEvidence" value="Evidence" style="margin-top: 3px; min-width: 18px; min-height: 18px; accent-color: var(--purple);">
+                <span style="font-size: 14px; line-height: 1.6; color: var(--text);">Evidence of abuse, such as: photos of injuries and/or damaged property, videos, voicemails, screenshots of abusive communications via text/email/social media, medical records, police reports, etc. Please note: SLSLS has limited capacity to review and organize large amounts of evidence. Please only send a reasonable amount of files, and organize and label each file to the best of your ability.</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="24">
+          <div style="background: var(--purple); color: white; padding: 18px 22px; margin: -18px -22px 24px; border-radius: 12px 12px 0 0;">
+            <h2 style="margin: 0; font-size: 20px; font-weight: 800;">Outside our Service Area</h2>
+          </div>
+          <div style="font-size: 15px; line-height: 1.7; color: var(--text);">
+            <p>Unfortunately, SLSLS does not currently provide legal representation outside of St. Louis County. If you would like to be connected with resources for additional support, including housing, counseling, safety planning, or employment assistance, visit <a href="https://slsls.org/additional-resources" target="_blank" style="color: var(--purple); text-decoration: underline;">slsls.org/additional-resources</a> or call us at <strong>314-NOW-STOP (314-669-7867)</strong>.</p>
+          </div>
+        </section>
+
+        <!-- <section class="step" data-step="15">
+          <h2>Additional questions</h2>
+          <p class="hint">These questions help us understand eligibility, safety, and urgency.</p>
+          <div class="grid">
+            <div class="form-row"><label class="sf-label">Case number</label><input class="sf-field"  id="00NbV000002fccr" maxlength="30" name="00NbV000002fccr" size="20" type="text" /></div><div class="form-row"><label class="sf-label">Adult OP Case Count</label><input class="sf-field"  id="00NbV000002fceT" name="00NbV000002fceT" size="20" type="text" /></div>
+          </div>
+          <div class="note">If you are in immediate danger, call emergency services right away.</div>
+        </section> -->
+
+        <div class="actions">
+          <button type="button" class="btn" id="backBtn">Back</button>
+          <div style="display:flex; gap:12px;">
+            <button type="button" class="btn primary" id="nextBtn">Next</button>
+            <button type="submit" class="btn primary" id="submitBtn" style="display:none">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const steps = Array.from(document.querySelectorAll('.step'));
+      const backBtn = document.getElementById('backBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const submitBtn = document.getElementById('submitBtn');
+      const stepText = document.getElementById('stepText');
+      const barFill = document.getElementById('barFill');
+
+      // Mark required fields visually (adds * to their label)
+      document.querySelectorAll('.sf-field[required]').forEach(el => {
+        const row = el.closest('.form-row');
+        const label = row ? row.querySelector('label') : null;
+        if (label && !label.querySelector('.req')) {
+          const star = document.createElement('span');
+          star.className = 'req';
+          star.textContent = '*';
+          label.appendChild(star);
+        }
+      });
+
+      let current = 0;
+      let navigationHistory = [0]; // Track navigation history
+
+      function showStep(i) {
+        current = Math.max(0, Math.min(i, steps.length - 1));
+        steps.forEach((s, idx) => s.classList.toggle('active', idx === current));
+
+        backBtn.disabled = current === 0;
+        // Show submit button on page 23 (index 22) and page 24 (index 23)
+        const showSubmit = current >= steps.length - 2;
+        nextBtn.style.display = showSubmit ? 'none' : 'inline-block';
+        submitBtn.style.display = showSubmit ? 'inline-block' : 'none';
+
+        stepText.textContent = `Page ${current + 1} of ${steps.length}`;
+        const pct = Math.round(((current + 1) / steps.length) * 100);
+        barFill.style.width = pct + '%';
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function navigateToStep(i) {
+        navigationHistory.push(i);
+        showStep(i);
+      }
+
+      function validateStep(i) {
+        const step = steps[i];
+        if (!step) return true;
+
+        console.log(`Validating step ${i}...`);
+
+        // Custom validation for PLACEHOLDER fields (page 11 - CHILDREN IN THE HOME)
+        if (i === 10) {
+          const childrenLiveYes = document.getElementById('PLACEHOLDER_ChildrenLiveInHome_yes');
+          const childrenLiveNo = document.getElementById('PLACEHOLDER_ChildrenLiveInHome_no');
+          if (childrenLiveYes && childrenLiveNo) {
+            if (!childrenLiveYes.checked && !childrenLiveNo.checked) {
+              console.log('Step 10 validation failed: No selection for children live in home');
+              alert('Please select whether your children live in your home.');
+              return false;
+            }
+            
+            // If "No" is checked, validate the children in common question on page 10 if it's visible
+            if (childrenLiveNo.checked) {
+              const childrenInCommonQuestion = document.getElementById('childrenInCommonQuestion');
+              if (childrenInCommonQuestion && childrenInCommonQuestion.style.display !== 'none') {
+                const childrenInCommonYes = document.getElementById('00NbV000002xqsf_page9_yes');
+                const childrenInCommonNo = document.getElementById('00NbV000002xqsf_page9_no');
+                if (childrenInCommonYes && childrenInCommonNo) {
+                  if (!childrenInCommonYes.checked && !childrenInCommonNo.checked) {
+                    console.log('Step 10 validation failed: No selection for children in common');
+                    alert('Please answer whether you have children in common with the opposing party.');
+                    return false;
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        // Custom validation for PLACEHOLDER fields (page 16 - custody type)
+        if (i === 15) {
+          const custodyHelp = document.querySelector('input[name="00NbV000002xroj"]:checked');
+          if (custodyHelp && custodyHelp.value === 'Yes') {
+            // Find the custody type section (it should be on page 16)
+            const step16 = steps[15];
+            const custodyTypeSection = step16.querySelector('[style*="grid-column"]');
+            
+            // Only validate if the custody type question is visible
+            if (custodyTypeSection) {
+              const custodyTypeOp = document.getElementById('PLACEHOLDER_CustodyType_op');
+              const custodyTypeSeparate = document.getElementById('PLACEHOLDER_CustodyType_separate');
+              if (custodyTypeOp && custodyTypeSeparate) {
+                if (!custodyTypeOp.checked && !custodyTypeSeparate.checked) {
+                  console.log('Step 15 validation failed: No selection for custody type');
+                  alert('Please select how you are interested in seeking custody.');
+                  return false;
+                }
+              }
+            }
+          }
+        }
+
+        const fields = Array.from(step.querySelectorAll('input, select, textarea'));
+        console.log(`Step ${i} has ${fields.length} fields to validate`);
+        
+        for (const f of fields) {
+          // Skip hidden fields, fields not in the DOM, and fields inside hidden containers
+          if (f.type === 'hidden' || f.offsetParent === null) continue;
+          
+          // Skip fields that don't have a name attribute (internal navigation only)
+          if (!f.name || f.name.trim() === '') {
+            console.log(`Skipping field without name: ${f.id}`);
+            continue;
+          }
+          
+          if (typeof f.reportValidity === 'function') {
+            if (!f.checkValidity()) {
+              console.log(`Field validation failed: ${f.name} (${f.id})`);
+              f.reportValidity();
+              return false;
+            }
+          }
+        }
+        
+        console.log(`Step ${i} validation passed`);
+        return true;
+      }
+
+      nextBtn.addEventListener('click', () => {
+        if (!validateStep(current)) return;
+        
+        // Check if on page 2 (data-step="2") and "No" is selected for St. Louis County question
+        if (current === 1) {
+          const stLouisNo = document.getElementById('00NbV000002faw2_no');
+          if (stLouisNo && stLouisNo.checked) {
+            navigateToStep(23); // Jump to "Outside our Service Area" page (data-step="24", last page, index 23)
+            return;
+          }
+        }
+        
+        // Check if on page 5 (data-step="5") - petition filed question
+        if (current === 4) {
+          const petitionNo = document.querySelector('input[name="00NbV000002fOPh"][value="No"]');
+          if (petitionNo && petitionNo.checked) {
+            navigateToStep(5); // Go to CONTACT EMA page (data-step="6", index 5)
+            return;
+          } else {
+            navigateToStep(6); // Go to PETITION INFORMATION (data-step="7", index 6)
+            return;
+          }
+        }
+        
+        // Check if on CONTACT EMA page (data-step="6", index 5) - Next goes to CLIENT INFORMATION
+        if (current === 5) {
+          navigateToStep(7); // Go to CLIENT INFORMATION (data-step="8", index 7)
+          return;
+        }
+        
+        // Check if on PETITION INFORMATION page (data-step="7", index 6) - Next goes to CLIENT INFORMATION
+        if (current === 6) {
+          navigateToStep(7); // Go to CLIENT INFORMATION (data-step="8", index 7)
+          return;
+        }
+        
+        // Check if on page 10 (data-step="10") and "No" is selected for children question
+        if (current === 9) {
+          const childrenNo = document.querySelector('input[name="00NbV000002o3G5"][value="No"]');
+          if (childrenNo && childrenNo.checked) {
+            navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+            return;
+          }
+        }
+        
+        // Check if on page 11 (data-step="11") - check the conditional question for children in common
+        if (current === 10) {
+          const childrenLiveInHomeYes = document.getElementById('PLACEHOLDER_ChildrenLiveInHome_yes');
+          const childrenLiveInHomeNo = document.getElementById('PLACEHOLDER_ChildrenLiveInHome_no');
+          
+          if (childrenLiveInHomeYes && childrenLiveInHomeYes.checked) {
+            // If children live in home, go to next page (CHILDREN IN COMMON)
+            navigateToStep(11);
+            return;
+          }
+          
+          if (childrenLiveInHomeNo && childrenLiveInHomeNo.checked) {
+            // Check the conditional question "Do you have children in common?"
+            const childrenInCommonPage9Yes = document.getElementById('00NbV000002xqsf_page9_yes');
+            const childrenInCommonPage9No = document.getElementById('00NbV000002xqsf_page9_no');
+            
+            if (childrenInCommonPage9Yes && childrenInCommonPage9Yes.checked) {
+              navigateToStep(14); // Go to CUSTODY (data-step="15", index 14)
+              return;
+            }
+            if (childrenInCommonPage9No && childrenInCommonPage9No.checked) {
+              navigateToStep(12); // Skip to CHILD ORDERS OF PROTECTION (data-step="13", index 12)
+              return;
+            }
+          }
+        }
+        
+        // Check if on page 13 (data-step="13") and "No" is selected for Child OP question
+        if (current === 12) {
+          const childOPNo = document.getElementById('00NbV000002xrDd_no');
+          if (childOPNo && childOPNo.checked) {
+            navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+            return;
+          }
+        }
+        
+        // Check if on page 14 (data-step="14") CHILD IN COMMON
+        if (current === 13) {
+          const childInCommonYes = document.getElementById('00NbV000002xrn7_yes');
+          const childInCommonNo = document.getElementById('00NbV000002xrn7_no');
+          
+          if (childInCommonYes && childInCommonYes.checked) {
+            navigateToStep(16); // Skip to CHILD IN COMMON - ADDITIONAL INFORMATION (data-step="17", index 16)
+            return;
+          }
+          if (childInCommonNo && childInCommonNo.checked) {
+            navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+            return;
+          }
+        }
+        
+        // Check if on page 12 (data-step="12") and "No" is selected for children in common question
+        if (current === 11) {
+          const childrenInCommonNo = document.getElementById('00NbV000002xqsf_no');
+          if (childrenInCommonNo && childrenInCommonNo.checked) {
+            navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+            return;
+          }
+        }
+        
+        // Check if on page 15 (data-step="15") - complex conditional routing
+        if (current === 14) {
+          const custodyHelpNo = document.getElementById('00NbV000002xroj_no');
+          const custodyHelpYes = document.getElementById('00NbV000002xroj_yes');
+          
+          // If custody help = "No", check the Child OP question
+          if (custodyHelpNo && custodyHelpNo.checked) {
+            const childOPYes = document.getElementById('00NbV000002xrChildOP_yes');
+            const childOPNo = document.getElementById('00NbV000002xrChildOP_no');
+            
+            // If Child OP = "Yes", check Child In Common question
+            if (childOPYes && childOPYes.checked) {
+              const childInCommonPage15Yes = document.getElementById('00NbV000002xrn7_page15_yes');
+              const childInCommonPage15No = document.getElementById('00NbV000002xrn7_page15_no');
+              
+              if (childInCommonPage15Yes && childInCommonPage15Yes.checked) {
+                navigateToStep(16); // Go to CHILD IN COMMON - ADDITIONAL INFORMATION (data-step="17", index 16)
+                return;
+              }
+              if (childInCommonPage15No && childInCommonPage15No.checked) {
+                navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+                return;
+              }
+            }
+            // If Child OP = "No", skip to lethality
+            if (childOPNo && childOPNo.checked) {
+              navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+              return;
+            }
+          }
+          
+          // If custody help = "Yes", continue to next page normally
+        }
+        
+        // Check if on page 16 (data-step="16") and "As a separate custody case" is selected
+        if (current === 15) {
+          const separateCustody = document.querySelector('input[name="00NbV000002xrType"][value="As a separate custody case"]');
+          if (separateCustody && separateCustody.checked) {
+            navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+            return;
+          }
+        }
+        
+        // Check if on page 17 (data-step="17") and "No" is selected for pending custody case question
+        if (current === 16) {
+          const pendingCustodyNo = document.querySelector('input[name="00NbV000002fuQ5"][value="No"]');
+          if (pendingCustodyNo && pendingCustodyNo.checked) {
+            navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+            return;
+          }
+        }
+        
+        navigateToStep(current + 1);
+      });
+
+      backBtn.addEventListener('click', () => {
+        // Go back in navigation history
+        if (navigationHistory.length > 1) {
+          navigationHistory.pop(); // Remove current page
+          const previousPage = navigationHistory[navigationHistory.length - 1];
+          current = previousPage; // Update current without adding to history
+          steps.forEach((s, idx) => s.classList.toggle('active', idx === current));
+
+          backBtn.disabled = current === 0;
+          nextBtn.style.display = current === steps.length - 1 ? 'none' : 'inline-block';
+          submitBtn.style.display = current === steps.length - 1 ? 'inline-block' : 'none';
+
+          stepText.textContent = `Page ${current + 1} of ${steps.length}`;
+          const pct = Math.round(((current + 1) / steps.length) * 100);
+          barFill.style.width = pct + '%';
+
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+
+      document.querySelector('form').addEventListener('submit', (e) => {
+        // Only validate steps that were actually visited (in navigation history)
+        console.log('Form submission started');
+        console.log('Navigation history:', navigationHistory);
+        
+        for (const stepIndex of navigationHistory) {
+          if (!validateStep(stepIndex)) {
+            console.log(`Validation failed at step ${stepIndex}`);
+            e.preventDefault();
+            showStep(stepIndex);
+            return false;
+          }
+        }
+        
+        console.log('All validations passed, submitting to Salesforce');
+        // Allow form to submit normally
+        return true;
+      });
+
+      // Handle conditional display of children details fields on page 9
+      const childrenLiveInHomeYes = document.getElementById('PLACEHOLDER_ChildrenLiveInHome_yes');
+      const childrenLiveInHomeNo = document.getElementById('PLACEHOLDER_ChildrenLiveInHome_no');
+      const childrenDetailsFields = document.getElementById('childrenDetailsFields');
+      const childrenInCommonQuestion = document.getElementById('childrenInCommonQuestion');
+
+      function toggleChildrenDetailsFields() {
+        if (childrenLiveInHomeYes && childrenLiveInHomeYes.checked) {
+          // Show children details fields
+          childrenDetailsFields.style.display = 'grid';
+          childrenInCommonQuestion.style.display = 'none';
+          
+          // Make children details fields required
+          document.getElementById('00NbV000002feht').required = true;
+          document.getElementById('00NbV000002fel7').required = true;
+          document.getElementById('00NbV000002feDG').required = true;
+          document.getElementById('00NbV000002feoL').required = true;
+          document.querySelector('input[name="00NbV000002fuLF"]').required = true;
+          document.getElementById('00NbV000002xpLW').required = true;
+          
+          // Remove required from children in common question (page 9 version doesn't need name attribute)
+          const childrenInCommonRadios = document.querySelectorAll('input[name="00NbV000002xqsf"]');
+          childrenInCommonRadios.forEach(r => r.required = false);
+          
+        } else if (childrenLiveInHomeNo && childrenLiveInHomeNo.checked) {
+          // Hide children details fields, show children in common question
+          childrenDetailsFields.style.display = 'none';
+          childrenInCommonQuestion.style.display = 'block';
+          
+          // Remove required from children details fields
+          document.getElementById('00NbV000002feht').required = false;
+          document.getElementById('00NbV000002fel7').required = false;
+          document.getElementById('00NbV000002feDG').required = false;
+          document.getElementById('00NbV000002feoL').required = false;
+          const raceRadios = document.querySelectorAll('input[name="00NbV000002fuLF"]');
+          raceRadios.forEach(r => r.required = false);
+          document.getElementById('00NbV000002xpLW').required = false;
+          
+          // Page 9 children in common question doesn't need name attribute (for navigation only)
+          // The actual field with name="00NbV000002xqsf" is on page 10
+        }
+      }
+
+      if (childrenLiveInHomeYes && childrenLiveInHomeNo) {
+        childrenLiveInHomeYes.addEventListener('change', toggleChildrenDetailsFields);
+        childrenLiveInHomeNo.addEventListener('change', toggleChildrenDetailsFields);
+      }
+
+      // Handle conditional display of "Other" relationship text field on page 4
+      const relationshipRadios = document.querySelectorAll('input[name="00NbV000002fbwv"]');
+      const relationshipOtherField = document.getElementById('relationshipOtherField');
+      const relationshipOtherInput = document.getElementById('00NbV000002fbx0');
+
+      function toggleRelationshipOtherField() {
+        const otherSelected = document.getElementById('00NbV000002fbwv_other');
+        if (otherSelected && otherSelected.checked) {
+          relationshipOtherField.style.display = 'block';
+          relationshipOtherInput.required = true;
+        } else {
+          relationshipOtherField.style.display = 'none';
+          relationshipOtherInput.required = false;
+          relationshipOtherInput.value = '';
+        }
+      }
+
+      relationshipRadios.forEach(radio => {
+        radio.addEventListener('change', toggleRelationshipOtherField);
+      });
+
+      // Handle conditional display of Child OP question on page 15
+      const custodyYes = document.getElementById('00NbV000002xroj_yes');
+      const custodyNo = document.getElementById('00NbV000002xroj_no');
+      const childOPQuestion = document.getElementById('childOPQuestion');
+      const childInCommonPage15 = document.getElementById('childInCommonPage15');
+
+      function toggleChildOPQuestion() {
+        if (custodyNo && custodyNo.checked) {
+          childOPQuestion.style.display = 'block';
+          // Make Child OP question required when shown
+          const childOPRadios = document.querySelectorAll('input[name="00NbV000002xrChildOP"]');
+          childOPRadios.forEach(radio => radio.setAttribute('required', 'required'));
+        } else {
+          childOPQuestion.style.display = 'none';
+          // Remove required attribute and clear selection when hidden
+          const childOPRadios = document.querySelectorAll('input[name="00NbV000002xrChildOP"]');
+          childOPRadios.forEach(radio => {
+            radio.removeAttribute('required');
+            radio.checked = false;
+          });
+          // Also hide and clear Child In Common question
+          if (childInCommonPage15) {
+            childInCommonPage15.style.display = 'none';
+            const childInCommonRadios = document.querySelectorAll('input[name="00NbV000002xrn7_page15"]');
+            childInCommonRadios.forEach(radio => {
+              radio.removeAttribute('required');
+              radio.checked = false;
+            });
+          }
+        }
+      }
+
+      function toggleChildInCommonPage15() {
+        const childOPYes = document.getElementById('00NbV000002xrChildOP_yes');
+        if (childOPYes && childOPYes.checked) {
+          childInCommonPage15.style.display = 'block';
+          // Make Child In Common question required when shown
+          const childInCommonRadios = document.querySelectorAll('input[name="00NbV000002xrn7_page15"]');
+          childInCommonRadios.forEach(radio => radio.setAttribute('required', 'required'));
+        } else {
+          childInCommonPage15.style.display = 'none';
+          // Remove required attribute and clear selection when hidden
+          const childInCommonRadios = document.querySelectorAll('input[name="00NbV000002xrn7_page15"]');
+          childInCommonRadios.forEach(radio => {
+            radio.removeAttribute('required');
+            radio.checked = false;
+          });
+        }
+      }
+
+      if (custodyYes && custodyNo) {
+        custodyYes.addEventListener('change', toggleChildOPQuestion);
+        custodyNo.addEventListener('change', toggleChildOPQuestion);
+      }
+
+      // Add event listeners for Child OP radio buttons
+      const childOPYes = document.getElementById('00NbV000002xrChildOP_yes');
+      const childOPNo = document.getElementById('00NbV000002xrChildOP_no');
+      if (childOPYes && childOPNo) {
+        childOPYes.addEventListener('change', toggleChildInCommonPage15);
+        childOPNo.addEventListener('change', toggleChildInCommonPage15);
+      }
+
+      showStep(0);
+    })();
+  </script>
+</body>
+</html>
