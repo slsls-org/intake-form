@@ -577,6 +577,23 @@
     .mt-6 { margin-top: 24px; }
     .mb-4 { margin-bottom: 16px; }
     .mb-6 { margin-bottom: 24px; }
+    
+    /* Example Images */
+    .example-image {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      margin-top: 12px;
+      box-shadow: var(--shadow-md);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .example-image:hover {
+      box-shadow: var(--shadow-lg);
+      transform: scale(1.02);
+    }
   </style>
 </head>
 <body>
@@ -660,7 +677,7 @@
             <div class="form-row full-width">
               <label class="sf-label">What is the opposing party's date of birth?</label>
               <p class="hint">If there are multiple opposing parties, please list each of their dates of birth and specify which date goes with which party.</p>
-              <input class="sf-field" id="00NbV000002faw3" name="00NbV000002faw3" type="text" required>
+              <textarea class="sf-field" id="00NbV000002faw3" name="00NbV000002faw3" rows="3"></textarea>
             </div>
             
             <div class="form-row full-width">
@@ -777,11 +794,11 @@
               <label class="sf-label">Do/did you have a divorce attorney?<span class="req">*</span></label>
               <div class="option-group">
                 <label class="option-item">
-                  <input type="radio" id="00NbV000002o2f4_yes" name="00NbV000002o2f4" value="Yes" required>
+                  <input type="radio" id="00NbV000002o2gb_yes" name="00NbV000002o2gb" value="Yes" required>
                   <span>Yes</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" id="00NbV000002o2f4_no" name="00NbV000002o2f4" value="No" required>
+                  <input type="radio" id="00NbV000002o2gb_no" name="00NbV000002o2gb" value="No" required>
                   <span>No</span>
                 </label>
               </div>
@@ -795,35 +812,47 @@
             <div class="form-row full-width">
               <label class="sf-label">Which option(s) best describes the Order(s) of Protection in this matter?<span class="req">*</span></label>
               <p class="hint">Check all that apply.</p>
+              
+              <!-- Hidden multi-select field for Salesforce submission -->
+              <select id="00NbV000002fcRZ" name="00NbV000002fcRZ" multiple="multiple" style="display: none;" required>
+                <option value="I am seeking (or considering seeking) an Adult OP against the other party">I am seeking (or considering seeking) an Adult OP against the other party</option>
+                <option value="I am seeking (or considering seeking) a Child OP against the other party">I am seeking (or considering seeking) a Child OP against the other party</option>
+                <option value="The other party filed an Adult OP against me">The other party filed an Adult OP against me</option>
+                <option value="The other party filed a Child OP against me">The other party filed a Child OP against me</option>
+                <option value="I am seeking a renewal/extension of my Full OP">I am seeking a renewal/extension of my Full OP</option>
+                <option value="I am seeking assistance because my Full OP was violated">I am seeking assistance because my Full OP was violated</option>
+              </select>
+              
+              <!-- Visible checkbox UI -->
               <div class="option-group">
                 <label class="option-item">
-                  <input type="checkbox" name="00NbV000002fOPa" value="Adult OP - Seeking">
+                  <input type="checkbox" class="op-checkbox" value="I am seeking (or considering seeking) an Adult OP against the other party">
                   <span>I am seeking (or considering seeking) an Adult OP against the other party</span>
                 </label>
                 <label class="option-item">
-                  <input type="checkbox" name="00NbV000002fOPb" value="Child OP - Seeking">
+                  <input type="checkbox" class="op-checkbox" value="I am seeking (or considering seeking) a Child OP against the other party">
                   <span>I am seeking (or considering seeking) a Child OP against the other party</span>
                 </label>
                 <label class="option-item">
-                  <input type="checkbox" name="00NbV000002fOPc" value="Adult OP - Filed Against Me">
+                  <input type="checkbox" class="op-checkbox" value="The other party filed an Adult OP against me">
                   <span>The other party filed an Adult OP against me</span>
                 </label>
                 <label class="option-item">
-                  <input type="checkbox" name="00NbV000002fOPd" value="Child OP - Filed Against Me">
+                  <input type="checkbox" class="op-checkbox" value="The other party filed a Child OP against me">
                   <span>The other party filed a Child OP against me</span>
                 </label>
                 <label class="option-item">
-                  <input type="checkbox" name="00NbV000002fOPe" value="Renewal/Extension">
+                  <input type="checkbox" class="op-checkbox" value="I am seeking a renewal/extension of my Full OP">
                   <span>I am seeking a renewal/extension of my Full OP</span>
                 </label>
                 <label class="option-item">
-                  <input type="checkbox" name="00NbV000002fOPf" value="OP Violation">
+                  <input type="checkbox" class="op-checkbox" value="I am seeking assistance because my Full OP was violated">
                   <span>I am seeking assistance because my Full OP was violated</span>
                 </label>
                 <label class="option-item">
-                  <input type="checkbox" name="00NbV000002fOPg" value="Other" id="00NbV000002fOPg">
+                  <input type="checkbox" class="op-checkbox" value="Other" id="op-other-checkbox">
                   <span>Other:</span>
-                  <input type="text" class="sf-field" id="00NbV000002fOPg_text" name="00NbV000002fOPg_text" style="flex: 1; min-width: 250px; margin-left: 8px;" placeholder="Please specify">
+                  <input type="text" class="sf-field" id="op-other-text" style="flex: 1; min-width: 250px; margin-left: 8px;" placeholder="Please specify">
                 </label>
               </div>
             </div>
@@ -861,22 +890,24 @@
             <div class="form-row full-width">
               <label class="sf-label">What is the case number?<span class="req">*</span></label>
               <p class="hint">This is the number at the top right of your order that starts with 25SL-PN... If there are multiple OPs, please list all case numbers.</p>
+              <img src="assets/case_Number.png" alt="Example of where to find case number" class="example-image" onclick="window.open(this.src, '_blank')">
               <input class="sf-field" id="00NbV000002fccr" maxlength="30" name="00NbV000002fccr" type="text" required>
             </div>
             
             <div class="form-row">
               <label class="sf-label">When is your court date?<span class="req">*</span></label>
-              <input class="sf-field" id="00NbV000002fCourtDate" name="00NbV000002fCourtDate" type="date" required>
+              <img src="assets/court_Date.png" alt="Example of where to find court date" class="example-image" onclick="window.open(this.src, '_blank')">
+              <input class="sf-field" id="00NbV000002fchh" name="00NbV000002fchh" type="date" required>
             </div>
             
             <div class="form-row">
               <label class="sf-label">What time is your hearing?<span class="req">*</span></label>
-              <input class="sf-field" id="00NbV000002fHearingTime" name="00NbV000002fHearingTime" type="time" required>
+              <input class="sf-field" id="00NbV000002fcjJ" name="00NbV000002fcjJ" type="time" required>
             </div>
             
             <div class="form-row">
               <label class="sf-label">What courtroom is your hearing in?<span class="req">*</span></label>
-              <input class="sf-field" id="00NbV000002fCourtroom" name="00NbV000002fCourtroom" type="text" required>
+              <input class="sf-field" id="00NbV000002fckv" name="00NbV000002fckv" type="text" required>
             </div>
           </div>
         </section>
@@ -886,6 +917,7 @@
           <div class="grid">
             <div class="form-row">
               <label class="sf-label">What is the best phone number for you?<span class="req">*</span></label>
+              <p class="hint">Please include the area code. If you have more than one, write both and indicate which is your primary number.</p>
               <input class="sf-field" id="phone" name="phone" type="tel" required>
             </div>
             
@@ -893,11 +925,11 @@
               <label class="sf-label">Is it safe for SLSLS to text you at this number?<span class="req">*</span></label>
               <div class="option-group">
                 <label class="option-item">
-                  <input type="radio" name="00NbV000002fSafeText" value="Yes" required>
+                  <input type="radio" name="00NbV000002fcmX" value="Yes" required>
                   <span>Yes</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" name="00NbV000002fSafeText" value="No">
+                  <input type="radio" name="00NbV000002fcmX" value="No">
                   <span>No</span>
                 </label>
               </div>
@@ -908,14 +940,10 @@
               <input class="sf-field" id="email" name="email" type="email" required>
             </div>
             
-            <div class="form-row">
+            <div class="form-row full-width">
               <label class="sf-label">What is your residential address?<span class="req">*</span></label>
-              <input class="sf-field" id="street" name="street" type="text" required>
-            </div>
-            
-            <div class="form-row">
-              <label class="sf-label">What is your city?<span class="req">*</span></label>
-              <input class="sf-field" id="city" name="city" type="text" required>
+              <p class="hint">Street, city, and state only. Zip code in next question.</p>
+              <textarea class="sf-field" id="street" name="street" required></textarea>
             </div>
             
             <div class="form-row">
@@ -923,14 +951,14 @@
               <input class="sf-field" id="zip" name="zip" type="text" maxlength="10" required>
             </div>
             
+            <div class="form-row full-width">
+              <label class="sf-label">Please provide the name and number of an emergency contact in the event we cannot reach you.<span class="req">*</span></label>
+              <input class="sf-field" id="00NbV000002fcub" name="00NbV000002fcub" maxlength="100" type="text" required>
+            </div>
+            
             <div class="form-row">
               <label class="sf-label">What is your age?<span class="req">*</span></label>
               <input class="sf-field" id="00NbV000002zfI1" name="00NbV000002zfI1" type="number" min="0" max="120" required>
-            </div>
-            
-            <div class="form-row full-width">
-              <label class="sf-label">Please provide the name and number of an emergency contact in the event we cannot reach you.<span class="req">*</span></label>
-              <input class="sf-field" id="00NbV000002zfID" name="00NbV000002zfID" type="text" required>
             </div>
           </div>
         </section>
@@ -971,19 +999,19 @@
               <label class="sf-label">What is your gender identity?</label>
               <div class="option-group">
                 <label class="option-item">
-                  <input type="radio" name="00NbV000002zfIc" value="Female">
+                  <input type="radio" id="00NbV000002zfIc_female" name="00NbV000002zfIc" value="Female">
                   <span>Female</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" name="00NbV000002zfIc" value="Male">
+                  <input type="radio" id="00NbV000002zfIc_male" name="00NbV000002zfIc" value="Male">
                   <span>Male</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" name="00NbV000002zfIc" value="Non-binary">
+                  <input type="radio" id="00NbV000002zfIc_nonbinary" name="00NbV000002zfIc" value="Non-binary">
                   <span>Non-binary</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" name="00NbV000002zfIc" value="Other">
+                  <input type="radio" id="00NbV000002zfIc_other" name="00NbV000002zfIc" value="Other">
                   <span>Other</span>
                 </label>
               </div>
@@ -1027,23 +1055,23 @@
               <label class="sf-label">What are your pronouns?</label>
               <div class="option-group">
                 <label class="option-item">
-                  <input type="radio" name="00NbV000002zfIh" value="she/her/hers">
+                  <input type="radio" id="00NbV000002zfIh_she" name="00NbV000002zfIh" value="she/her/hers">
                   <span>she/her/hers</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" name="00NbV000002zfIh" value="he/him/his">
+                  <input type="radio" id="00NbV000002zfIh_he" name="00NbV000002zfIh" value="he/him/his">
                   <span>he/him/his</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" name="00NbV000002zfIh" value="they/them/theirs">
+                  <input type="radio" id="00NbV000002zfIh_they" name="00NbV000002zfIh" value="they/them/theirs">
                   <span>they/them/theirs</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" name="00NbV000002zfIh" value="Please refer to me by my name">
+                  <input type="radio" id="00NbV000002zfIh_name" name="00NbV000002zfIh" value="Please refer to me by my name">
                   <span>Please refer to me by my name</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" name="00NbV000002zfIh" value="Other">
+                  <input type="radio" id="00NbV000002zfIh_other" name="00NbV000002zfIh" value="Other">
                   <span>Other</span>
                 </label>
               </div>
@@ -1053,27 +1081,27 @@
               <label class="sf-label">What is your highest level of education?</label>
               <div class="option-group">
                 <label class="option-item">
-                  <input type="checkbox" name="00NbV000002zfIm" value="Trade or Vocational Certificate">
+                  <input type="checkbox" name="00NbV000002fdM1" value="Trade or Vocational Certificate">
                   <span>Trade or Vocational Certificate</span>
                 </label>
                 <label class="option-item">
-                  <input type="checkbox" name="00NbV000002zfIm" value="High/General Education Development">
-                  <span>High/General Education Development</span>
+                  <input type="checkbox" name="00NbV000002fdM1" value="GED (General Education Development)">
+                  <span>GED (General Education Development)</span>
                 </label>
                 <label class="option-item">
-                  <input type="checkbox" name="00NbV000002zfIm" value="High School Diploma">
+                  <input type="checkbox" name="00NbV000002fdM1" value="High School Diploma">
                   <span>High School Diploma</span>
                 </label>
                 <label class="option-item">
-                  <input type="checkbox" name="00NbV000002zfIm" value="Some College (no degree)">
+                  <input type="checkbox" name="00NbV000002fdM1" value="Some College (no degree)">
                   <span>Some College (no degree)</span>
                 </label>
                 <label class="option-item">
-                  <input type="checkbox" name="00NbV000002zfIm" value="Undergraduate Degree">
+                  <input type="checkbox" name="00NbV000002fdM1" value="Undergraduate Degree">
                   <span>Undergraduate Degree</span>
                 </label>
                 <label class="option-item">
-                  <input type="checkbox" name="00NbV000002zfIm" value="Master's Degree">
+                  <input type="checkbox" name="00NbV000002fdM1" value="Master's Degree">
                   <span>Master's Degree</span>
                 </label>
               </div>
@@ -1148,19 +1176,21 @@
               <label class="sf-label">Do your children live in your home?<span class="req">*</span></label>
               <div class="option-group">
                 <label class="option-item">
-                  <input type="radio" id="PLACEHOLDER_ChildrenLiveInHome_yes" name="PLACEHOLDER_ChildrenLiveInHome" value="Yes">
+                  <input type="radio" id="00NbV000002zfcz_yes" name="00NbV000002zfcz" value="Yes" required>
                   <span>Yes</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" id="PLACEHOLDER_ChildrenLiveInHome_no" name="PLACEHOLDER_ChildrenLiveInHome" value="No">
+                  <input type="radio" id="00NbV000002zfcz_no" name="00NbV000002zfcz" value="No">
                   <span>No</span>
                 </label>
               </div>
-              <!-- Internal navigation field only - not submitted to Salesforce -->
-              <input type="hidden" id="00NbV000002zfcz" name="00NbV000002zfcz" value="">
             </div>
             
             <div id="childrenDetailsFields" style="display: none; grid-column: 1 / -1;">
+              <div class="subsection-header">
+                <h3>CHILDREN IN THE HOME 2</h3>
+              </div>
+              
               <div class="form-row" style="grid-column: 1 / -1;">
                 <label class="sf-label">How many children in your home are 0-5 years old?<span class="req">*</span></label>
                 <input class="sf-field" id="00NbV000002feht" name="00NbV000002feht" type="number" min="0">
@@ -1183,29 +1213,7 @@
               
               <div class="form-row" style="grid-column: 1 / -1;">
                 <label class="sf-label">What is the child(ren)'s race?<span class="req">*</span></label>
-                <div class="option-group">
-                  <label class="option-item">
-                    <input type="radio" name="00NbV000002fuLF" value="White/Caucasian">
-                    <span>White/Caucasian</span>
-                  </label>
-                  <label class="option-item">
-                    <input type="radio" name="00NbV000002fuLF" value="Black/African American">
-                    <span>Black/African American</span>
-                  </label>
-                  <label class="option-item">
-                    <input type="radio" name="00NbV000002fuLF" value="Hispanic">
-                    <span>Hispanic</span>
-                  </label>
-                  <label class="option-item">
-                    <input type="radio" name="00NbV000002fuLF" value="Asian">
-                    <span>Asian</span>
-                  </label>
-                  <label class="option-item">
-                    <input type="radio" name="00NbV000002fuLF" value="Other" id="00NbV000002fuLF_other">
-                    <span>Other:</span>
-                    <input type="text" class="sf-field" id="00NbV000002fuLF_other_text" name="00NbV000002fuLF_other_text" style="flex: 1; min-width: 200px;" placeholder="Please specify">
-                  </label>
-                </div>
+                <textarea class="sf-field" id="00NbV000002fuLF" name="00NbV000002fuLF" rows="3"></textarea>
               </div>
               
               <div class="form-row" style="grid-column: 1 / -1;">
@@ -1219,11 +1227,11 @@
                 <label class="sf-label">Do you have children in common with the opposing party?<span class="req">*</span></label>
                 <div class="option-group">
                   <label class="option-item">
-                    <input type="radio" id="00NbV000002xqsf_page9_yes" name="PLACEHOLDER_ChildrenInCommon_page11" value="Yes">
+                    <input type="radio" id="00NbV000002xqsf_page9_yes" name="00NbV000002xqsf" value="Yes">
                     <span>Yes</span>
                   </label>
                   <label class="option-item">
-                    <input type="radio" id="00NbV000002xqsf_page9_no" name="PLACEHOLDER_ChildrenInCommon_page11" value="No">
+                    <input type="radio" id="00NbV000002xqsf_page9_no" name="00NbV000002xqsf" value="No">
                     <span>No</span>
                   </label>
                 </div>
@@ -1404,7 +1412,7 @@
             
             <div class="form-row" style="grid-column: 1 / -1;">
               <label class="sf-label">If there is a scheduled trial date, when is it set?</label>
-              <input class="sf-field" id="00NbV000002xr3x" name="00NbV000002xr3x" type="text" size="12">
+              <input class="sf-field" id="00NbV000002xr3x" name="00NbV000002xr3x" type="date">
               <!-- Field ID: 00NbV000002xr3x -->
             </div>
           </div>
@@ -1773,7 +1781,7 @@
             <div class="form-row" style="grid-column: 1 / -1;">
               <label class="sf-label">To your knowledge, does the opposing party have a criminal history?</label>
               <p class="hint" style="margin: -2px 0 6px; font-size: 12px;">If so, please state the crime(s) with which they were charged, the state in which they were charged, and whether they have been convicted/found guilty.</p>
-              <textarea class="sf-field" id="00NbV000002fy3t" name="00NbV000002fy3t" rows="4"></textarea>
+              <input class="sf-field" id="00NbV000002fy3t" name="00NbV000002fy3t" type="text" maxlength="255">
             </div>
             
             <div class="form-row" style="grid-column: 1 / -1;">
@@ -1785,7 +1793,7 @@
             <div class="form-row" style="grid-column: 1 / -1;">
               <label class="sf-label">Do you currently have any warrants pending against you?</label>
               <p class="hint" style="margin: -2px 0 6px; font-size: 12px;">If so, SLSLS <em>may</em> be able to assist you with them.</p>
-              <textarea class="sf-field" id="00NbV000002fyAL" name="00NbV000002fyAL" rows="4"></textarea>
+              <input class="sf-field" id="00NbV000002fyAL" name="00NbV000002fyAL" type="text" maxlength="255">
             </div>
           </div>
         </section>
@@ -1890,6 +1898,22 @@
           </div>
         </section>
 
+        <section class="step" data-step="25" id="confirmationPage">
+          <div style="text-align: center; padding: 40px 20px;">
+            <h2 style="font-size: 28px; font-weight: 600; color: var(--text); margin: 0 0 24px;">Application for Free Legal Services</h2>
+            <p style="font-size: 16px; line-height: 1.6; color: var(--text); margin: 0;">Your application has been submitted. SLSLS will reach out to you as soon as possible.</p>
+          </div>
+          <div style="text-align: center; margin-top: 60px; padding-top: 32px; border-top: 1px solid var(--border);">
+            <p style="font-size: 12px; color: var(--muted); margin: 0 0 8px;">This form was created inside of St. Louis Survivors Legal Support. - <a href="#" style="color: var(--purple); text-decoration: none;">Contact form owner</a></p>
+            <p style="font-size: 12px; color: var(--muted); margin: 0;">Does this form look suspicious? <a href="https://support.google.com/forms" target="_blank" style="color: var(--purple); text-decoration: none;">Report</a></p>
+            <div style="margin-top: 32px;">
+              <svg width="116" height="38" viewBox="0 0 116 38" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.4;">
+                <text x="0" y="28" font-family="Arial, sans-serif" font-size="24" fill="#5f6368">Google Forms</text>
+              </svg>
+            </div>
+          </div>
+        </section>
+
         <!-- <section class="step" data-step="15">
           <h2>Additional questions</h2>
           <p class="hint">These questions help us understand eligibility, safety, and urgency.</p>
@@ -1939,8 +1963,8 @@
         steps.forEach((s, idx) => s.classList.toggle('active', idx === current));
 
         backBtn.disabled = current === 0;
-        // Show submit button on page 23 (index 22) and page 24 (index 23)
-        const showSubmit = current >= steps.length - 2;
+        // Show submit button on page 23 (index 22), page 24 (index 23), and confirmation page (index 24)
+        const showSubmit = current >= 22;
         nextBtn.style.display = showSubmit ? 'none' : 'inline-block';
         submitBtn.style.display = showSubmit ? 'inline-block' : 'none';
 
@@ -1964,8 +1988,8 @@
 
         // Custom validation for PLACEHOLDER fields (page 11 - CHILDREN IN THE HOME)
         if (i === 10) {
-          const childrenLiveYes = document.getElementById('PLACEHOLDER_ChildrenLiveInHome_yes');
-          const childrenLiveNo = document.getElementById('PLACEHOLDER_ChildrenLiveInHome_no');
+          const childrenLiveYes = document.getElementById('00NbV000002zfcz_yes');
+          const childrenLiveNo = document.getElementById('00NbV000002zfcz_no');
           if (childrenLiveYes && childrenLiveNo) {
             if (!childrenLiveYes.checked && !childrenLiveNo.checked) {
               console.log('Step 10 validation failed: No selection for children live in home');
@@ -2087,8 +2111,8 @@
         
         // Check if on page 11 (data-step="11") - check the conditional question for children in common
         if (current === 10) {
-          const childrenLiveInHomeYes = document.getElementById('PLACEHOLDER_ChildrenLiveInHome_yes');
-          const childrenLiveInHomeNo = document.getElementById('PLACEHOLDER_ChildrenLiveInHome_no');
+          const childrenLiveInHomeYes = document.getElementById('00NbV000002zfcz_yes');
+          const childrenLiveInHomeNo = document.getElementById('00NbV000002zfcz_no');
           
           if (childrenLiveInHomeYes && childrenLiveInHomeYes.checked) {
             // If children live in home, go to next page (CHILDREN IN COMMON)
@@ -2136,9 +2160,15 @@
           }
         }
         
-        // Check if on page 12 (data-step="12") and "No" is selected for children in common question
+        // Check if on page 12 (data-step="12") for children in common question
         if (current === 11) {
+          const childrenInCommonYes = document.getElementById('00NbV000002xqsf_yes');
           const childrenInCommonNo = document.getElementById('00NbV000002xqsf_no');
+          
+          if (childrenInCommonYes && childrenInCommonYes.checked) {
+            navigateToStep(14); // Go to CUSTODY (data-step="15", index 14)
+            return;
+          }
           if (childrenInCommonNo && childrenInCommonNo.checked) {
             navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
             return;
@@ -2209,8 +2239,9 @@
           steps.forEach((s, idx) => s.classList.toggle('active', idx === current));
 
           backBtn.disabled = current === 0;
-          nextBtn.style.display = current === steps.length - 1 ? 'none' : 'inline-block';
-          submitBtn.style.display = current === steps.length - 1 ? 'inline-block' : 'none';
+          const showSubmit = current >= 22;
+          nextBtn.style.display = showSubmit ? 'none' : 'inline-block';
+          submitBtn.style.display = showSubmit ? 'inline-block' : 'none';
 
           stepText.textContent = `Page ${current + 1} of ${steps.length}`;
           const pct = Math.round(((current + 1) / steps.length) * 100);
@@ -2221,6 +2252,8 @@
       });
 
       document.querySelector('form').addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent default form submission
+        
         // Only validate steps that were actually visited (in navigation history)
         console.log('Form submission started');
         console.log('Navigation history:', navigationHistory);
@@ -2228,20 +2261,79 @@
         for (const stepIndex of navigationHistory) {
           if (!validateStep(stepIndex)) {
             console.log(`Validation failed at step ${stepIndex}`);
-            e.preventDefault();
             showStep(stepIndex);
             return false;
           }
         }
         
+        // Convert date and time fields to text format before submission
+        // Page 2: Date of birth (00NbV000002fbGz)
+        const dobField = document.getElementById('00NbV000002fbGz');
+        if (dobField && dobField.value) {
+          // Convert from YYYY-MM-DD to MM/DD/YYYY format
+          const dateValue = new Date(dobField.value);
+          const month = String(dateValue.getMonth() + 1).padStart(2, '0');
+          const day = String(dateValue.getDate()).padStart(2, '0');
+          const year = dateValue.getFullYear();
+          dobField.type = 'text';
+          dobField.value = `${month}/${day}/${year}`;
+        }
+        
+        // Page 7: Court date (00NbV000002fchh)
+        const courtDateField = document.getElementById('00NbV000002fchh');
+        if (courtDateField && courtDateField.value) {
+          const dateValue = new Date(courtDateField.value);
+          const month = String(dateValue.getMonth() + 1).padStart(2, '0');
+          const day = String(dateValue.getDate()).padStart(2, '0');
+          const year = dateValue.getFullYear();
+          courtDateField.type = 'text';
+          courtDateField.value = `${month}/${day}/${year}`;
+        }
+        
+        // Page 7: Hearing time (00NbV000002fcjJ)
+        const hearingTimeField = document.getElementById('00NbV000002fcjJ');
+        if (hearingTimeField && hearingTimeField.value) {
+          // Convert from 24-hour format (HH:MM) to 12-hour format (HH:MM AM/PM)
+          const [hours, minutes] = hearingTimeField.value.split(':');
+          const hour = parseInt(hours);
+          const ampm = hour >= 12 ? 'PM' : 'AM';
+          const hour12 = hour % 12 || 12;
+          hearingTimeField.type = 'text';
+          hearingTimeField.value = `${hour12}:${minutes} ${ampm}`;
+        }
+        
         console.log('All validations passed, submitting to Salesforce');
-        // Allow form to submit normally
-        return true;
+        
+        // Hide navigation and show a submitting message
+        document.querySelector('.actions').style.display = 'none';
+        document.querySelector('.progress').style.display = 'none';
+        
+        // Show confirmation page immediately (form will submit in background)
+        steps.forEach(s => s.classList.remove('active'));
+        const confirmPage = document.getElementById('confirmationPage');
+        confirmPage.style.display = 'block';
+        confirmPage.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Submit form to Salesforce using traditional form submission
+        // We need to create a hidden iframe to prevent page redirect
+        const iframe = document.createElement('iframe');
+        iframe.name = 'salesforce_submit';
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+        
+        // Set form target to iframe
+        e.target.target = 'salesforce_submit';
+        
+        // Submit the form
+        e.target.submit();
+        
+        return false;
       });
 
       // Handle conditional display of children details fields on page 9
-      const childrenLiveInHomeYes = document.getElementById('PLACEHOLDER_ChildrenLiveInHome_yes');
-      const childrenLiveInHomeNo = document.getElementById('PLACEHOLDER_ChildrenLiveInHome_no');
+      const childrenLiveInHomeYes = document.getElementById('00NbV000002zfcz_yes');
+      const childrenLiveInHomeNo = document.getElementById('00NbV000002zfcz_no');
       const childrenDetailsFields = document.getElementById('childrenDetailsFields');
       const childrenInCommonQuestion = document.getElementById('childrenInCommonQuestion');
 
@@ -2256,7 +2348,7 @@
           document.getElementById('00NbV000002fel7').required = true;
           document.getElementById('00NbV000002feDG').required = true;
           document.getElementById('00NbV000002feoL').required = true;
-          document.querySelector('input[name="00NbV000002fuLF"]').required = true;
+          document.getElementById('00NbV000002fuLF').required = true;
           document.getElementById('00NbV000002xpLW').required = true;
           
           // Remove required from children in common question (page 9 version doesn't need name attribute)
@@ -2273,8 +2365,7 @@
           document.getElementById('00NbV000002fel7').required = false;
           document.getElementById('00NbV000002feDG').required = false;
           document.getElementById('00NbV000002feoL').required = false;
-          const raceRadios = document.querySelectorAll('input[name="00NbV000002fuLF"]');
-          raceRadios.forEach(r => r.required = false);
+          document.getElementById('00NbV000002fuLF').required = false;
           document.getElementById('00NbV000002xpLW').required = false;
           
           // Page 9 children in common question doesn't need name attribute (for navigation only)
@@ -2369,6 +2460,64 @@
       if (childOPYes && childOPNo) {
         childOPYes.addEventListener('change', toggleChildInCommonPage15);
         childOPNo.addEventListener('change', toggleChildInCommonPage15);
+      }
+
+      // Handle Order of Protection checkboxes and sync with hidden multi-select
+      const opCheckboxes = document.querySelectorAll('.op-checkbox');
+      const opMultiSelect = document.getElementById('00NbV000002fcRZ');
+      const opOtherCheckbox = document.getElementById('op-other-checkbox');
+      const opOtherText = document.getElementById('op-other-text');
+
+      function syncOPCheckboxes() {
+        // Clear all selections in the hidden multi-select
+        Array.from(opMultiSelect.options).forEach(opt => opt.selected = false);
+        
+        // Get all checked checkboxes
+        const checkedValues = [];
+        opCheckboxes.forEach(checkbox => {
+          if (checkbox.checked) {
+            // If "Other" is checked and has text, use the custom text
+            if (checkbox === opOtherCheckbox && opOtherText.value.trim()) {
+              checkedValues.push(opOtherText.value.trim());
+            } else if (checkbox !== opOtherCheckbox) {
+              checkedValues.push(checkbox.value);
+            }
+          }
+        });
+        
+        // Select corresponding options in the hidden multi-select
+        checkedValues.forEach(value => {
+          Array.from(opMultiSelect.options).forEach(opt => {
+            if (opt.value === value) {
+              opt.selected = true;
+            }
+          });
+        });
+        
+        // Handle custom validation
+        if (checkedValues.length > 0) {
+          opMultiSelect.setCustomValidity('');
+        } else {
+          opMultiSelect.setCustomValidity('Please select at least one option');
+        }
+      }
+
+      // Add event listeners to all OP checkboxes
+      opCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', syncOPCheckboxes);
+      });
+
+      // Add event listener to Other text field
+      if (opOtherText) {
+        opOtherText.addEventListener('input', syncOPCheckboxes);
+        
+        // Auto-check "Other" checkbox when text is entered
+        opOtherText.addEventListener('focus', () => {
+          if (opOtherCheckbox) {
+            opOtherCheckbox.checked = true;
+            syncOPCheckboxes();
+          }
+        });
       }
 
       showStep(0);
