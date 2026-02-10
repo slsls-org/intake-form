@@ -2273,6 +2273,24 @@
           }
         }
         
+        // Handle "Other" fields - combine with text entered
+        // Page 4: Relationship "Other" field
+        const relationshipOtherRadio = document.getElementById('00NbV000002fbwv_other');
+        const relationshipOtherText = document.getElementById('00NbV000002fbx0');
+        if (relationshipOtherRadio && relationshipOtherRadio.checked && relationshipOtherText && relationshipOtherText.value.trim()) {
+          relationshipOtherRadio.value = `Other - ${relationshipOtherText.value.trim()}`;
+        }
+        
+        // Page 6: OP Assistance "Other" checkbox field
+        const opOtherCheckbox = document.getElementById('op-other-checkbox');
+        const opOtherText = document.getElementById('op-other-text');
+        if (opOtherCheckbox && opOtherCheckbox.checked && opOtherText && opOtherText.value.trim()) {
+          // Update the checkbox value to include the text
+          opOtherCheckbox.value = `Other - ${opOtherText.value.trim()}`;
+          // Re-sync the multi-select to capture the updated value
+          syncOPCheckboxes();
+        }
+        
         // Convert date and time fields to text format before submission
         // Page 2: Date of birth (00NbV000002fbGz)
         const dobField = document.getElementById('00NbV000002fbGz');
