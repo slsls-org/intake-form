@@ -594,6 +594,39 @@
       box-shadow: var(--shadow-lg);
       transform: scale(1.02);
     }
+    
+    /* Side-by-side layout for questions with images */
+    .question-with-image {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    
+    .question-with-image .question-content {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .question-with-image .image-content {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    
+    .question-with-image .example-image {
+      max-width: 100%;
+      max-height: 400px;
+      margin-top: 0;
+      object-fit: contain;
+    }
+    
+    @media (max-width: 768px) {
+      .question-with-image {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 <body>
@@ -888,16 +921,28 @@
           </div>
           <div class="grid">
             <div class="form-row full-width">
-              <label class="sf-label">What is the case number?<span class="req">*</span></label>
-              <p class="hint">This is the number at the top right of your order that starts with 25SL-PN... If there are multiple OPs, please list all case numbers.</p>
-              <img src="assets/case_Number.png" alt="Example of where to find case number" class="example-image" onclick="window.open(this.src, '_blank')">
-              <input class="sf-field" id="00NbV000002fccr" maxlength="30" name="00NbV000002fccr" type="text" required>
+              <div class="question-with-image">
+                <div class="question-content">
+                  <label class="sf-label">What is the case number?<span class="req">*</span></label>
+                  <p class="hint">This is the number at the top right of your order that starts with 25SL-PN... If there are multiple OPs, please list all case numbers.</p>
+                  <input class="sf-field" id="00NbV000002fccr" maxlength="30" name="00NbV000002fccr" type="text" required>
+                </div>
+                <div class="image-content">
+                  <img src="assets/case_Number.png" alt="Example of where to find case number" class="example-image" onclick="window.open(this.src, '_blank')">
+                </div>
+              </div>
             </div>
             
-            <div class="form-row">
-              <label class="sf-label">When is your court date?<span class="req">*</span></label>
-              <img src="assets/court_Date.png" alt="Example of where to find court date" class="example-image" onclick="window.open(this.src, '_blank')">
-              <input class="sf-field" id="00NbV000002fchh" name="00NbV000002fchh" type="date" required>
+            <div class="form-row full-width">
+              <div class="question-with-image">
+                <div class="question-content">
+                  <label class="sf-label">When is your court date?<span class="req">*</span></label>
+                  <input class="sf-field" id="00NbV000002fchh" name="00NbV000002fchh" type="date" required>
+                </div>
+                <div class="image-content">
+                  <img src="assets/court_Date.png" alt="Example of where to find court date" class="example-image" onclick="window.open(this.src, '_blank')">
+                </div>
+              </div>
             </div>
             
             <div class="form-row">
