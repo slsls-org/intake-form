@@ -890,13 +890,20 @@
             <div class="form-row full-width">
               <label class="sf-label">What is the case number?<span class="req">*</span></label>
               <p class="hint">This is the number at the top right of your order that starts with 25SL-PN... If there are multiple OPs, please list all case numbers.</p>
-              <img src="assets/case_Number.png" alt="Example of where to find case number" class="example-image" onclick="window.open(this.src, '_blank')">
               <input class="sf-field" id="00NbV000002fccr" maxlength="30" name="00NbV000002fccr" type="text" required>
+            </div>
+            
+            <div class="form-row full-width" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start;">
+              <div>
+                <img src="assets/case_Number.png" alt="Example of where to find case number" class="example-image" onclick="window.open(this.src, '_blank')" style="margin: 0;">
+              </div>
+              <div>
+                <img src="assets/court_Date.png" alt="Example of where to find court date" class="example-image" onclick="window.open(this.src, '_blank')" style="margin: 0;">
+              </div>
             </div>
             
             <div class="form-row">
               <label class="sf-label">When is your court date?<span class="req">*</span></label>
-              <img src="assets/court_Date.png" alt="Example of where to find court date" class="example-image" onclick="window.open(this.src, '_blank')">
               <input class="sf-field" id="00NbV000002fchh" name="00NbV000002fchh" type="date" required>
             </div>
             
@@ -999,19 +1006,19 @@
               <label class="sf-label">What is your gender identity?</label>
               <div class="option-group">
                 <label class="option-item">
-                  <input type="radio" id="GenderIdentity_female" name="GenderIdentity" value="Female">
+                  <input type="radio" id="GenderIdentity" name="GenderIdentity" value="Female">
                   <span>Female</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" id="GenderIdentity_male" name="GenderIdentity" value="Male">
+                  <input type="radio" id="GenderIdentity" name="GenderIdentity" value="Male">
                   <span>Male</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" id="GenderIdentity_nonbinary" name="GenderIdentity" value="Non-binary">
+                  <input type="radio" id="GenderIdentity" name="GenderIdentity" value="Non-binary">
                   <span>Non-binary</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" id="GenderIdentity_other" name="GenderIdentity" value="Other">
+                  <input type="radio" id="GenderIdentity" name="GenderIdentity" value="Other">
                   <span>Other</span>
                 </label>
               </div>
@@ -1055,23 +1062,23 @@
               <label class="sf-label">What are your pronouns?</label>
               <div class="option-group">
                 <label class="option-item">
-                  <input type="radio" id="Pronouns_she" name="Pronouns" value="she/her/hers">
+                  <input type="radio" id="Pronouns" name="Pronouns" value="she/her/hers">
                   <span>she/her/hers</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" id="Pronouns_he" name="Pronouns" value="he/him/his">
+                  <input type="radio" id="Pronouns" name="Pronouns" value="he/him/his">
                   <span>he/him/his</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" id="Pronouns_they" name="Pronouns" value="they/them/theirs">
+                  <input type="radio" id="Pronouns" name="Pronouns" value="they/them/theirs">
                   <span>they/them/theirs</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" id="Pronouns_name" name="Pronouns" value="Please refer to me by my name">
+                  <input type="radio" id="Pronouns" name="Pronouns" value="Please refer to me by my name">
                   <span>Please refer to me by my name</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" id="Pronouns_other" name="Pronouns" value="Other">
+                  <input type="radio" id="Pronouns" name="Pronouns" value="Other">
                   <span>Other</span>
                 </label>
               </div>
@@ -1356,11 +1363,11 @@
               <label class="sf-label">How are you interested in seeking custody?<span class="req">*</span></label>
               <div class="option-group">
                 <label class="option-item">
-                  <input type="radio" id="PLACEHOLDER_CustodyType_op" value="As part of my Order of Protection">
+                  <input type="radio" id="00NbV0000030mnh" name="00NbV0000030mnh" value="As part of my Order of Protection">
                   <span>As part of my Order of Protection</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" id="PLACEHOLDER_CustodyType_separate" value="As a separate custody case">
+                  <input type="radio" id="00NbV0000030mnh" name="00NbV0000030mnh" value="As a separate custody case">
                   <span>As a separate custody case</span>
                 </label>
               </div>
