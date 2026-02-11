@@ -767,38 +767,38 @@
             </div>
           </div>
           
-          <div class="subsection-header mt-6">
+          <div id="marriedSection" class="subsection-header mt-6" style="display: none;">
             <h3>MARRIED</h3>
           </div>
-          <div class="grid">
+          <div id="marriedFields" class="grid" style="display: none;">
             <div class="form-row full-width">
               <label class="sf-label">Has either party filed for dissolution (a divorce)?<span class="req">*</span></label>
               <div class="option-group">
                 <label class="option-item">
-                  <input type="radio" id="00NbV000002o2ez_yes" name="00NbV000002o2ez" value="Yes" required>
+                  <input type="radio" id="00NbV000002o2ez_yes" name="00NbV000002o2ez" value="Yes">
                   <span>Yes</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" id="00NbV000002o2ez_no" name="00NbV000002o2ez" value="No" required>
+                  <input type="radio" id="00NbV000002o2ez_no" name="00NbV000002o2ez" value="No">
                   <span>No</span>
                 </label>
               </div>
             </div>
           </div>
           
-          <div class="subsection-header mt-6">
+          <div id="divorcedSection" class="subsection-header mt-6" style="display: none;">
             <h3>DIVORCED</h3>
           </div>
-          <div class="grid">
+          <div id="divorcedFields" class="grid" style="display: none;">
             <div class="form-row full-width">
               <label class="sf-label">Do/did you have a divorce attorney?<span class="req">*</span></label>
               <div class="option-group">
                 <label class="option-item">
-                  <input type="radio" id="00NbV000002o2gb_yes" name="00NbV000002o2gb" value="Yes" required>
+                  <input type="radio" id="00NbV000002o2gb_yes" name="00NbV000002o2gb" value="Yes">
                   <span>Yes</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" id="00NbV000002o2gb_no" name="00NbV000002o2gb" value="No" required>
+                  <input type="radio" id="00NbV000002o2gb_no" name="00NbV000002o2gb" value="No">
                   <span>No</span>
                 </label>
               </div>
@@ -1220,7 +1220,29 @@
               
               <div class="form-row" style="grid-column: 1 / -1;">
                 <label class="sf-label">What is the child(ren)'s race?<span class="req">*</span></label>
-                <textarea class="sf-field" id="00NbV000002fuLF" name="00NbV000002fuLF" rows="3"></textarea>
+                <div class="option-group">
+                  <label class="option-item">
+                    <input type="radio" name="00NbV000002fuLF" value="White/Caucasian" required>
+                    <span>White/Caucasian</span>
+                  </label>
+                  <label class="option-item">
+                    <input type="radio" name="00NbV000002fuLF" value="Black/African American">
+                    <span>Black/African American</span>
+                  </label>
+                  <label class="option-item">
+                    <input type="radio" name="00NbV000002fuLF" value="Hispanic">
+                    <span>Hispanic</span>
+                  </label>
+                  <label class="option-item">
+                    <input type="radio" name="00NbV000002fuLF" value="Asian">
+                    <span>Asian</span>
+                  </label>
+                  <label class="option-item">
+                    <input type="radio" id="childRaceOther" name="00NbV000002fuLF" value="Other">
+                    <span>Other:</span>
+                    <input type="text" class="sf-field" id="childRaceOtherText" style="flex: 1; min-width: 250px; margin-left: 8px;" placeholder="Please specify">
+                  </label>
+                </div>
               </div>
               
               <div class="form-row" style="grid-column: 1 / -1;">
@@ -1363,20 +1385,38 @@
               <label class="sf-label">How are you interested in seeking custody?<span class="req">*</span></label>
               <div class="option-group">
                 <label class="option-item">
-                  <input type="radio" id="00NbV0000030mnh" name="00NbV0000030mnh" value="As part of my Order of Protection">
+                  <input type="radio" id="00NbV0000030mnh_op" name="00NbV0000030mnh" value="As part of my Order of Protection" required>
                   <span>As part of my Order of Protection</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" id="00NbV0000030mnh" name="00NbV0000030mnh" value="As a separate custody case">
+                  <input type="radio" id="00NbV0000030mnh_separate" name="00NbV0000030mnh" value="As a separate custody case">
                   <span>As a separate custody case</span>
                 </label>
               </div>
-              <!-- Internal navigation field only - not submitted to Salesforce -->
             </div>
           </div>
         </section>
 
         <section class="step" data-step="17">
+          <h2>SEPARATE CUSTODY CASE</h2>
+          <div class="grid">
+            <div class="form-row" style="grid-column: 1 / -1;">
+              <label class="sf-label">What type of custody case would you be filing?<span class="req">*</span></label>
+              <div class="option-group">
+                <label class="option-item">
+                  <input type="radio" id="00NbV0000031DKr_dissolution" name="00NbV0000031DKr" value="Dissolution of marriage (we are married)" required>
+                  <span>Dissolution of marriage (we are married)</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" id="00NbV0000031DKr_paternity" name="00NbV0000031DKr" value="Paternity case (we are not married)">
+                  <span>Paternity case (we are not married)</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="step" data-step="18">
           <h2>CHILD IN COMMON - ADDITIONAL INFORMATION</h2>
           <div class="grid">
             <div class="form-row" style="grid-column: 1 / -1;">
@@ -1395,7 +1435,7 @@
           </div>
         </section>
 
-        <section class="step" data-step="18">
+        <section class="step" data-step="19">
           <h2>PRIOR CUSTODY DETERMINATION</h2>
           <div class="grid">
             <div class="form-row" style="grid-column: 1 / -1;">
@@ -1411,7 +1451,7 @@
                   <span>Yes</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" name="00NbV000002xr2L" value="No" required>
+                  <input type="radio" name="00NbV000002xr2L" value="No">
                   <span>No</span>
                 </label>
               </div>
@@ -1425,7 +1465,7 @@
           </div>
         </section>
 
-        <section class="step" data-step="19">
+        <section class="step" data-step="20">
           <h2>LETHALITY ASSESSMENT</h2>
           <div class="grid">
             <div class="form-row">
@@ -1766,7 +1806,7 @@
           </div>
         </section>
 
-        <section class="step" data-step="20">
+        <section class="step" data-step="21">
           <h2>PRIOR OPs</h2>
           <div class="grid">
             <div class="form-row" style="grid-column: 1 / -1;">
@@ -1782,7 +1822,7 @@
           </div>
         </section>
 
-        <section class="step" data-step="21">
+        <section class="step" data-step="22">
           <h2>CRIMINAL HISTORY</h2>
           <div class="grid">
             <div class="form-row" style="grid-column: 1 / -1;">
@@ -1805,7 +1845,7 @@
           </div>
         </section>
 
-        <section class="step" data-step="22">
+        <section class="step" data-step="23">
           <h2>REFERRALS</h2>
           <div class="grid">
             <div class="form-row" style="grid-column: 1 / -1;">
@@ -1830,7 +1870,7 @@
           </div>
         </section>
 
-        <section class="step" data-step="23">
+        <section class="step" data-step="24">
           <h2>NEXT STEPS</h2>
           
           <p style="font-size: 15px; margin: 16px 0 24px; line-height: 1.6;">
@@ -1896,7 +1936,7 @@
           </div>
         </section>
 
-        <section class="step" data-step="24">
+        <section class="step" data-step="25">
           <div style="background: var(--purple); color: white; padding: 18px 22px; margin: -18px -22px 24px; border-radius: 12px 12px 0 0;">
             <h2 style="margin: 0; font-size: 20px; font-weight: 800;">Outside our Service Area</h2>
           </div>
@@ -1905,7 +1945,7 @@
           </div>
         </section>
 
-        <section class="step" data-step="25" id="confirmationPage">
+        <section class="step" data-step="26" id="confirmationPage">
           <div style="text-align: center; padding: 40px 20px;">
             <h2 style="font-size: 28px; font-weight: 600; color: var(--text); margin: 0 0 24px;">Application for Free Legal Services</h2>
             <p style="font-size: 16px; line-height: 1.6; color: var(--text); margin: 0;">Your application has been submitted. SLSLS will reach out to you as soon as possible.</p>
@@ -1961,8 +2001,8 @@
         steps.forEach((s, idx) => s.classList.toggle('active', idx === current));
 
         backBtn.disabled = current === 0;
-        // Show submit button on page 23 (index 22), page 24 (index 23), and confirmation page (index 24)
-        const showSubmit = current >= 22;
+        // Show submit button on page 24 (index 23), page 25 (index 24), and confirmation page (index 25)
+        const showSubmit = current >= 23;
         nextBtn.style.display = showSubmit ? 'none' : 'inline-block';
         submitBtn.style.display = showSubmit ? 'inline-block' : 'none';
 
@@ -2013,25 +2053,15 @@
           }
         }
 
-        // Custom validation for PLACEHOLDER fields (page 16 - custody type)
+        // Custom validation for custody type question (page 16)
         if (i === 15) {
-          const custodyHelp = document.querySelector('input[name="00NbV000002xroj"]:checked');
-          if (custodyHelp && custodyHelp.value === 'Yes') {
-            // Find the custody type section (it should be on page 16)
-            const step16 = steps[15];
-            const custodyTypeSection = step16.querySelector('[style*="grid-column"]');
-            
-            // Only validate if the custody type question is visible
-            if (custodyTypeSection) {
-              const custodyTypeOp = document.getElementById('PLACEHOLDER_CustodyType_op');
-              const custodyTypeSeparate = document.getElementById('PLACEHOLDER_CustodyType_separate');
-              if (custodyTypeOp && custodyTypeSeparate) {
-                if (!custodyTypeOp.checked && !custodyTypeSeparate.checked) {
-                  console.log('Step 15 validation failed: No selection for custody type');
-                  alert('Please select how you are interested in seeking custody.');
-                  return false;
-                }
-              }
+          const custodyTypeOp = document.getElementById('00NbV0000030mnh_op');
+          const custodyTypeSeparate = document.getElementById('00NbV0000030mnh_separate');
+          if (custodyTypeOp && custodyTypeSeparate) {
+            if (!custodyTypeOp.checked && !custodyTypeSeparate.checked) {
+              console.log('Step 15 validation failed: No selection for custody type');
+              alert('Please select how you are interested in seeking custody.');
+              return false;
             }
           }
         }
@@ -2069,7 +2099,7 @@
         if (current === 1) {
           const stLouisNo = document.getElementById('00NbV000002faw2_no');
           if (stLouisNo && stLouisNo.checked) {
-            navigateToStep(23); // Jump to "Outside our Service Area" page (data-step="24", last page, index 23)
+            navigateToStep(24); // Jump to "Outside our Service Area" page (data-step="25", index 24)
             return;
           }
         }
@@ -2102,7 +2132,7 @@
         if (current === 9) {
           const childrenNo = document.querySelector('input[name="00NbV000002o3G5"][value="No"]');
           if (childrenNo && childrenNo.checked) {
-            navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+            navigateToStep(19); // Skip to LETHALITY ASSESSMENT (data-step="20", index 19)
             return;
           }
         }
@@ -2138,7 +2168,7 @@
         if (current === 12) {
           const childOPNo = document.getElementById('00NbV000002xrDd_no');
           if (childOPNo && childOPNo.checked) {
-            navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+            navigateToStep(19); // Skip to LETHALITY ASSESSMENT (data-step="20", index 19)
             return;
           }
         }
@@ -2149,11 +2179,11 @@
           const childInCommonNo = document.getElementById('00NbV000002xrn7_no');
           
           if (childInCommonYes && childInCommonYes.checked) {
-            navigateToStep(16); // Skip to CHILD IN COMMON - ADDITIONAL INFORMATION (data-step="17", index 16)
+            navigateToStep(17); // Skip to CHILD IN COMMON - ADDITIONAL INFORMATION (data-step="18", index 17)
             return;
           }
           if (childInCommonNo && childInCommonNo.checked) {
-            navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+            navigateToStep(19); // Skip to LETHALITY ASSESSMENT (data-step="20", index 19)
             return;
           }
         }
@@ -2168,7 +2198,7 @@
             return;
           }
           if (childrenInCommonNo && childrenInCommonNo.checked) {
-            navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+            navigateToStep(12); // Skip to CHILD ORDERS OF PROTECTION (data-step="13", index 12)
             return;
           }
         }
@@ -2189,17 +2219,17 @@
               const childInCommonPage15No = document.getElementById('00NbV000002xrn7_page15_no');
               
               if (childInCommonPage15Yes && childInCommonPage15Yes.checked) {
-                navigateToStep(16); // Go to CHILD IN COMMON - ADDITIONAL INFORMATION (data-step="17", index 16)
+                navigateToStep(17); // Go to CHILD IN COMMON - ADDITIONAL INFORMATION (data-step="18", index 17)
                 return;
               }
               if (childInCommonPage15No && childInCommonPage15No.checked) {
-                navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+                navigateToStep(19); // Skip to LETHALITY ASSESSMENT (data-step="20", index 19)
                 return;
               }
             }
             // If Child OP = "No", skip to lethality
             if (childOPNo && childOPNo.checked) {
-              navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+              navigateToStep(19); // Skip to LETHALITY ASSESSMENT (data-step="20", index 19)
               return;
             }
           }
@@ -2207,20 +2237,33 @@
           // If custody help = "Yes", continue to next page normally
         }
         
-        // Check if on page 16 (data-step="16") and "As a separate custody case" is selected
+        // Check if on page 16 (data-step="16") - CUSTODY TYPE routing
         if (current === 15) {
-          const separateCustody = document.querySelector('input[name="00NbV000002xrType"][value="As a separate custody case"]');
-          if (separateCustody && separateCustody.checked) {
-            navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+          const custodyAsPartOfOP = document.getElementById('00NbV0000030mnh_op');
+          const custodyAsSeparate = document.getElementById('00NbV0000030mnh_separate');
+          
+          if (custodyAsPartOfOP && custodyAsPartOfOP.checked) {
+            navigateToStep(17); // Go to CHILD IN COMMON - ADDITIONAL INFORMATION (data-step="18", index 17)
+            return;
+          }
+          if (custodyAsSeparate && custodyAsSeparate.checked) {
+            navigateToStep(16); // Go to SEPARATE CUSTODY CASE (data-step="17", index 16)
             return;
           }
         }
         
-        // Check if on page 17 (data-step="17") and "No" is selected for pending custody case question
+        // Check if on page 17 (data-step="17") SEPARATE CUSTODY CASE - continue to CHILD IN COMMON
         if (current === 16) {
+          // After answering custody type question, continue to CHILD IN COMMON - ADDITIONAL INFORMATION
+          navigateToStep(17); // Go to CHILD IN COMMON - ADDITIONAL INFORMATION (data-step="18", index 17)
+          return;
+        }
+        
+        // Check if on page 18 (data-step="18") and "No" is selected for pending custody case question
+        if (current === 17) {
           const pendingCustodyNo = document.querySelector('input[name="00NbV000002fuQ5"][value="No"]');
           if (pendingCustodyNo && pendingCustodyNo.checked) {
-            navigateToStep(18); // Skip to LETHALITY ASSESSMENT (data-step="19", index 18)
+            navigateToStep(19); // Skip to LETHALITY ASSESSMENT (data-step="20", index 19)
             return;
           }
         }
@@ -2237,7 +2280,7 @@
           steps.forEach((s, idx) => s.classList.toggle('active', idx === current));
 
           backBtn.disabled = current === 0;
-          const showSubmit = current >= 22;
+          const showSubmit = current >= 23;
           nextBtn.style.display = showSubmit ? 'none' : 'inline-block';
           submitBtn.style.display = showSubmit ? 'inline-block' : 'none';
 
@@ -2270,6 +2313,13 @@
         const relationshipOtherText = document.getElementById('00NbV000002fbx0');
         if (relationshipOtherRadio && relationshipOtherRadio.checked && relationshipOtherText && relationshipOtherText.value.trim()) {
           relationshipOtherRadio.value = `Other - ${relationshipOtherText.value.trim()}`;
+        }
+        
+        // Page 11: Child race "Other" field
+        const childRaceOtherRadio = document.getElementById('childRaceOther');
+        const childRaceOtherText = document.getElementById('childRaceOtherText');
+        if (childRaceOtherRadio && childRaceOtherRadio.checked && childRaceOtherText && childRaceOtherText.value.trim()) {
+          childRaceOtherRadio.value = `Other - ${childRaceOtherText.value.trim()}`;
         }
         
         // Page 6: OP Assistance "Other" checkbox field
@@ -2413,6 +2463,68 @@
 
       relationshipRadios.forEach(radio => {
         radio.addEventListener('change', toggleRelationshipOtherField);
+      });
+
+      // Handle conditional display of MARRIED and DIVORCED subsections on page 4
+      function toggleMarriedDivorcedSections() {
+        const marriedSection = document.getElementById('marriedSection');
+        const marriedFields = document.getElementById('marriedFields');
+        const divorcedSection = document.getElementById('divorcedSection');
+        const divorcedFields = document.getElementById('divorcedFields');
+        const marriedRadios = document.querySelectorAll('input[name="00NbV000002o2ez"]');
+        const divorcedRadios = document.querySelectorAll('input[name="00NbV000002o2gb"]');
+        
+        const spouseSelected = document.getElementById('00NbV000002fbwv_spouse');
+        const exSpouseSelected = document.getElementById('00NbV000002fbwv_exspouse');
+        
+        // Hide all subsections by default
+        marriedSection.style.display = 'none';
+        marriedFields.style.display = 'none';
+        divorcedSection.style.display = 'none';
+        divorcedFields.style.display = 'none';
+        
+        // Remove required from all subsection fields
+        marriedRadios.forEach(r => r.required = false);
+        divorcedRadios.forEach(r => r.required = false);
+        
+        // Show appropriate subsection based on selection
+        if (spouseSelected && spouseSelected.checked) {
+          marriedSection.style.display = 'block';
+          marriedFields.style.display = 'grid';
+          marriedRadios.forEach(r => r.required = true);
+        } else if (exSpouseSelected && exSpouseSelected.checked) {
+          divorcedSection.style.display = 'block';
+          divorcedFields.style.display = 'grid';
+          divorcedRadios.forEach(r => r.required = true);
+        }
+      }
+
+      function toggleDivorcedSection() {
+        const divorcedSection = document.getElementById('divorcedSection');
+        const divorcedFields = document.getElementById('divorcedFields');
+        const divorcedRadios = document.querySelectorAll('input[name="00NbV000002o2gb"]');
+        const dissolutionYes = document.getElementById('00NbV000002o2ez_yes');
+        
+        // If dissolution filed = Yes, show divorced section
+        if (dissolutionYes && dissolutionYes.checked) {
+          divorcedSection.style.display = 'block';
+          divorcedFields.style.display = 'grid';
+          divorcedRadios.forEach(r => r.required = true);
+        } else {
+          divorcedSection.style.display = 'none';
+          divorcedFields.style.display = 'none';
+          divorcedRadios.forEach(r => r.required = false);
+        }
+      }
+
+      relationshipRadios.forEach(radio => {
+        radio.addEventListener('change', toggleMarriedDivorcedSections);
+      });
+
+      // Add event listeners to married section radio buttons
+      const marriedRadios = document.querySelectorAll('input[name="00NbV000002o2ez"]');
+      marriedRadios.forEach(radio => {
+        radio.addEventListener('change', toggleDivorcedSection);
       });
 
       // Handle conditional display of Child OP question on page 15
