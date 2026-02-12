@@ -1,6 +1,7 @@
+---
 name: Branch Protection Checks
 
-on:
+'on':
   pull_request:
     branches:
       - main
@@ -12,31 +13,31 @@ jobs:
   validate:
     name: Validate Changes
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Check for direct commits to main
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           echo "⚠️  Direct push to main branch detected!"
-          echo "Please use pull requests for all changes to the main branch."
+          echo "Please use pull requests for all changes to main."
           echo "This helps maintain code quality through:"
           echo "  - Code review process"
           echo "  - Automated testing"
           echo "  - Documentation of changes"
           exit 0
-      
+
       - name: Validate HTML
         run: |
           echo "✓ Checking HTML files..."
           if [ -f "index.html" ]; then
             echo "✓ index.html exists"
           fi
-      
+
       - name: PR Check Success
         if: github.event_name == 'pull_request'
         run: |
-          echo "✓ Pull request workflow - changes will be reviewed before merging"
-          echo "✓ This is the recommended way to contribute to this repository"
+          echo "✓ Pull request workflow"
+          echo "✓ Changes will be reviewed before merging"
