@@ -27,7 +27,7 @@ jobs:
           echo "  - Code review process"
           echo "  - Automated testing"
           echo "  - Documentation of changes"
-          exit 0
+          exit 1
 
       - name: Validate HTML
         run: |
