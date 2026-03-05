@@ -637,7 +637,7 @@
 
         <p><strong>Need help filing an OP right away?</strong> If you have not yet filed a petition for an OP and would like assistance, please call us at <strong>314-NOW-STOP (314-669-7867)</strong>.</p>
 
-        <p>To apply for SLSLS's services, please complete this application. A member of our team will review your submission and follow up with you as soon as possible. This application is <strong>confidential</strong> and will only be reviewed by SLSLS staff and, if accepted, your attorney(s). If completing this form may put your <strong>safety</strong> at risk, please use a safe device and location or call us directly.</p>
+        <p>To apply for SLSLS's services, please complete this application. If you already have a court date, it is important that you complete your application and submit all required documents as soon as possible. The earlier we receive your materials, the more time we have to try to match you with a volunteer attorney before your court date. A member of our team will review your submission and follow up with you as soon as possible. This application is <strong>confidential</strong> and will only be reviewed by SLSLS staff and, if accepted, your attorney(s). If completing this form may put your <strong>safety</strong> at risk, please use a safe device and location or call us directly.</p>
 
         <p>SLSLS represents clients in OP and related custody matters in <strong>St. Louis County only</strong>. We can also connect applicants with <strong>referrals and resources for additional support</strong>, including housing, counseling, safety planning, employment assistance, and more.</p>
 
@@ -810,7 +810,7 @@
           <h2>ORDER OF PROTECTION</h2>
           <div class="grid">
             <div class="form-row full-width">
-              <label class="sf-label">Which option(s) best describes the Order(s) of Protection in this matter?<span class="req">*</span></label>
+              <label class="sf-label">Which option(s) best describes the services you are seeking?<span class="req">*</span></label>
               <p class="hint">Check all that apply.</p>
               
               <!-- Hidden multi-select field for Salesforce submission -->
@@ -821,6 +821,7 @@
                 <option value="The other party filed a Child OP against me">The other party filed a Child OP against me</option>
                 <option value="I am seeking a renewal/extension of my Full OP">I am seeking a renewal/extension of my Full OP</option>
                 <option value="I am seeking assistance because my Full OP was violated">I am seeking assistance because my Full OP was violated</option>
+                <option value="I am ONLY seeking custody of the children I have in common with the other party">I am ONLY seeking custody of the children I have in common with the other party</option>
               </select>
               
               <!-- Visible checkbox UI -->
@@ -850,6 +851,10 @@
                   <span>I am seeking assistance because my Full OP was violated</span>
                 </label>
                 <label class="option-item">
+                  <input type="checkbox" class="op-checkbox" id="op-only-custody-checkbox" value="I am ONLY seeking custody of the children I have in common with the other party">
+                  <span>I am ONLY seeking custody of the children I have in common with the other party</span>
+                </label>
+                <label class="option-item">
                   <input type="checkbox" class="op-checkbox" value="Other" id="op-other-checkbox">
                   <span>Other:</span>
                   <input type="text" class="sf-field" id="op-other-text" style="flex: 1; min-width: 250px; margin-left: 8px;" placeholder="Please specify">
@@ -857,7 +862,7 @@
               </div>
             </div>
             
-            <div class="form-row full-width">
+            <div class="form-row full-width" id="petitionFiledQuestion">
               <label class="sf-label">Have you already filed a petition for an order of protection (or has one been filed against you)?<span class="req">*</span></label>
               <div class="option-group">
                 <label class="option-item">
@@ -1887,7 +1892,7 @@
           </div>
           
           <div style="margin: 20px 0; padding: 14px 16px; background: #fff9e6; border: 1px solid #ffd666; border-radius: 10px;">
-            <p style="margin: 0; font-size: 14px; font-weight: 600;">Your COMPLETE application must be submitted at least one week before your court date.</p>
+            <p style="margin: 0; font-size: 14px; font-weight: 600;">If you already have a court date, it is important that you complete your application and submit all required documents as soon as possible. The earlier we receive your materials, the more time we have to try to match you with a volunteer attorney before your court date.</p>
           </div>
           
           <p style="font-size: 15px; margin: 24px 0 16px; font-weight: 600;">Instructions for scanning and emailing a document as a PDF in Gmail on an iPhone:</p>
@@ -2106,6 +2111,11 @@
         
         // Check if on page 5 (data-step="5") - petition filed question
         if (current === 4) {
+          const onlyCustodyCheckbox = document.getElementById('op-only-custody-checkbox');
+          if (onlyCustodyCheckbox && onlyCustodyCheckbox.checked) {
+            navigateToStep(7); // Skip to CLIENT INFORMATION (data-step="8", index 7)
+            return;
+          }
           const petitionNo = document.querySelector('input[name="00NbV000002fOPh"][value="No"]');
           if (petitionNo && petitionNo.checked) {
             navigateToStep(5); // Go to CONTACT EMA page (data-step="6", index 5)
@@ -2595,6 +2605,8 @@
       const opMultiSelect = document.getElementById('00NbV000002fcRZ');
       const opOtherCheckbox = document.getElementById('op-other-checkbox');
       const opOtherText = document.getElementById('op-other-text');
+      const opOnlyCustodyCheckbox = document.getElementById('op-only-custody-checkbox');
+      const petitionFiledQuestion = document.getElementById('petitionFiledQuestion');
 
       function syncOPCheckboxes() {
         // Clear all selections in the hidden multi-select
@@ -2634,6 +2646,18 @@
       opCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', syncOPCheckboxes);
       });
+
+      // Toggle petition filed question visibility based on "only custody" checkbox
+      function togglePetitionQuestion() {
+        if (petitionFiledQuestion && opOnlyCustodyCheckbox) {
+          petitionFiledQuestion.style.display = opOnlyCustodyCheckbox.checked ? 'none' : '';
+        }
+      }
+
+      if (opOnlyCustodyCheckbox) {
+        opOnlyCustodyCheckbox.addEventListener('change', togglePetitionQuestion);
+        togglePetitionQuestion(); // Ensure correct initial state
+      }
 
       // Add event listener to Other text field
       if (opOtherText) {
