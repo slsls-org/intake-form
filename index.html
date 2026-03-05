@@ -2112,7 +2112,9 @@
         // Check if on page 5 (data-step="5") - petition filed question
         if (current === 4) {
           const onlyCustodyCheckbox = document.getElementById('op-only-custody-checkbox');
-          if (onlyCustodyCheckbox && onlyCustodyCheckbox.checked) {
+          const isOnlyCustodyAlone = onlyCustodyCheckbox && onlyCustodyCheckbox.checked &&
+            !Array.from(opCheckboxes).some(cb => cb !== onlyCustodyCheckbox && cb.checked);
+          if (isOnlyCustodyAlone) {
             navigateToStep(7); // Skip to CLIENT INFORMATION (data-step="8", index 7)
             return;
           }
@@ -2640,6 +2642,8 @@
         } else {
           opMultiSelect.setCustomValidity('Please select at least one option');
         }
+        // Keep petition question visibility in sync whenever any OP checkbox changes
+        togglePetitionQuestion();
       }
 
       // Add event listeners to all OP checkboxes
@@ -2647,10 +2651,12 @@
         checkbox.addEventListener('change', syncOPCheckboxes);
       });
 
-      // Toggle petition filed question visibility based on "only custody" checkbox
+      // Toggle petition filed question visibility based on "only custody" checkbox.
+      // Hide only when "only custody" is the sole checked OP option.
       function togglePetitionQuestion() {
         if (petitionFiledQuestion && opOnlyCustodyCheckbox) {
-          petitionFiledQuestion.style.display = opOnlyCustodyCheckbox.checked ? 'none' : '';
+          const otherOpChecked = Array.from(opCheckboxes).some(cb => cb !== opOnlyCustodyCheckbox && cb.checked);
+          petitionFiledQuestion.style.display = (opOnlyCustodyCheckbox.checked && !otherOpChecked) ? 'none' : '';
         }
       }
 
