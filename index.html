@@ -866,11 +866,11 @@
               <label class="sf-label">Have you already filed a petition for an order of protection (or has one been filed against you)?<span class="req">*</span></label>
               <div class="option-group">
                 <label class="option-item">
-                  <input type="radio" name="00NbV000002fOPh" value="Yes" required>
+                  <input type="radio" name="00NbV000002fbVV" value="Yes" required>
                   <span>Yes</span>
                 </label>
                 <label class="option-item">
-                  <input type="radio" name="00NbV000002fOPh" value="No">
+                  <input type="radio" name="00NbV000002fbVV" value="No" required>
                   <span>No</span>
                 </label>
               </div>
@@ -955,7 +955,7 @@
             <div class="form-row full-width">
               <label class="sf-label">What is your residential address?<span class="req">*</span></label>
               <p class="hint">Street, city, and state only. Zip code in next question.</p>
-              <textarea class="sf-field" id="street" name="street" required></textarea>
+              <input class="sf-field" id="00NbV000003IinF" name="00NbV000003IinF" type="text" maxlength="255" required>
             </div>
             
             <div class="form-row">
@@ -1130,7 +1130,7 @@
             <div class="form-row full-width">
               <label class="sf-label">What is the opposing party's residential address?<span class="req">*</span></label>
               <p class="hint">Please include: city, state, and zip code</p>
-              <input class="sf-field" id="00NbV000002zfQ5" name="00NbV000002zfQ5" type="text" required>
+              <input class="sf-field" id="00NbV000002zfQ5" name="00NbV000002zfQ5" type="text" maxlength="255" required>
             </div>
             
             <div class="form-row" style="grid-column: 1 / -1;">
@@ -2029,6 +2029,23 @@
 
         console.log(`Validating step ${i}...`);
 
+        // Custom validation for OP checkboxes and petition filed (page 5 - ORDER OF PROTECTION)
+        if (i === 4) {
+          const opCbs = document.querySelectorAll('.op-checkbox');
+          const anyChecked = Array.from(opCbs).some(cb => cb.checked);
+          if (!anyChecked) {
+            alert('Please select at least one option describing the services you are seeking.');
+            return false;
+          }
+          const petitionDiv = document.getElementById('petitionFiledQuestion');
+          if (petitionDiv && petitionDiv.style.display !== 'none') {
+            if (!document.querySelector('input[name="00NbV000002fbVV"]:checked')) {
+              alert('Please answer whether you have already filed a petition for an order of protection.');
+              return false;
+            }
+          }
+        }
+
         // Custom validation for PLACEHOLDER fields (page 11 - CHILDREN IN THE HOME)
         if (i === 10) {
           const childrenLiveYes = document.getElementById('00NbV000002zfcz_yes');
@@ -2118,7 +2135,7 @@
             navigateToStep(7); // Skip to CLIENT INFORMATION (data-step="8", index 7)
             return;
           }
-          const petitionNo = document.querySelector('input[name="00NbV000002fOPh"][value="No"]');
+          const petitionNo = document.querySelector('input[name="00NbV000002fbVV"][value="No"]');
           if (petitionNo && petitionNo.checked) {
             navigateToStep(5); // Go to CONTACT EMA page (data-step="6", index 5)
             return;
@@ -2683,8 +2700,6 @@
   </script>
 </body>
 </html>
-
-
 
 
 
