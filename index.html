@@ -2362,27 +2362,24 @@
         }
         
         // Convert date and time fields to text format before submission
+        // YYYY-MM-DD -> MM/DD/YYYY: split the string instead of new Date(str), which parses
+        // date-only strings as UTC midnight and can show the previous calendar day in US timezones.
+        const formatHtmlDateForSalesforce = (isoDate) => {
+          const [y, m, d] = isoDate.split('-');
+          return y && m && d ? `${m}/${d}/${y}` : isoDate;
+        };
         // Page 2: Date of birth (00NbV000002fbGz)
         const dobField = document.getElementById('00NbV000002fbGz');
         if (dobField && dobField.value) {
-          // Convert from YYYY-MM-DD to MM/DD/YYYY format
-          const dateValue = new Date(dobField.value);
-          const month = String(dateValue.getMonth() + 1).padStart(2, '0');
-          const day = String(dateValue.getDate()).padStart(2, '0');
-          const year = dateValue.getFullYear();
           dobField.type = 'text';
-          dobField.value = `${month}/${day}/${year}`;
+          dobField.value = formatHtmlDateForSalesforce(dobField.value);
         }
         
         // Page 7: Court date (00NbV000002fchh)
         const courtDateField = document.getElementById('00NbV000002fchh');
         if (courtDateField && courtDateField.value) {
-          const dateValue = new Date(courtDateField.value);
-          const month = String(dateValue.getMonth() + 1).padStart(2, '0');
-          const day = String(dateValue.getDate()).padStart(2, '0');
-          const year = dateValue.getFullYear();
           courtDateField.type = 'text';
-          courtDateField.value = `${month}/${day}/${year}`;
+          courtDateField.value = formatHtmlDateForSalesforce(courtDateField.value);
         }
         
         // Page 7: Hearing time (00NbV000002fcjJ)
