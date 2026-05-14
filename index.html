@@ -720,9 +720,17 @@
             </div>
             
             <div class="form-row full-width">
-              <label class="sf-label">What is your gross income?</label>
-              <p class="hint">Indicate annually, monthly, bi-weekly or hourly</p>
-              <input class="sf-field" id="00NbV000002noVZ" name="00NbV000002noVZ" type="text" required>
+              <label class="sf-label">What is your approximate annual gross household income (before taxes)?<span class="req">*</span></label>
+              <div class="radio-group" id="grossIncomeGroup">
+                <label class="radio-option"><input type="radio" name="00NbV000002noVZ" value="No income" required> No income</label>
+                <label class="radio-option"><input type="radio" name="00NbV000002noVZ" value="Less than $10,000"> Less than $10,000</label>
+                <label class="radio-option"><input type="radio" name="00NbV000002noVZ" value="$10,000–$19,999"> $10,000–$19,999</label>
+                <label class="radio-option"><input type="radio" name="00NbV000002noVZ" value="$20,000–$29,999"> $20,000–$29,999</label>
+                <label class="radio-option"><input type="radio" name="00NbV000002noVZ" value="$30,000–$39,999"> $30,000–$39,999</label>
+                <label class="radio-option"><input type="radio" name="00NbV000002noVZ" value="$40,000–$49,999"> $40,000–$49,999</label>
+                <label class="radio-option"><input type="radio" name="00NbV000002noVZ" value="$50,000–$74,999"> $50,000–$74,999</label>
+                <label class="radio-option"><input type="radio" name="00NbV000002noVZ" value="$75,000 or more"> $75,000 or more</label>
+              </div>
             </div>
             
             <div class="form-row full-width">
@@ -2318,6 +2326,12 @@
           barFill.style.width = pct + '%';
 
           window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+
+      document.querySelector('form').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+          e.preventDefault();
         }
       });
 
