@@ -720,9 +720,41 @@
             </div>
             
             <div class="form-row full-width">
-              <label class="sf-label">What is your gross income?</label>
-              <p class="hint">Indicate annually, monthly, bi-weekly or hourly</p>
-              <input class="sf-field" id="00NbV000002noVZ" name="00NbV000002noVZ" type="text" required>
+              <label class="sf-label">What is your approximate annual gross household income (before taxes)?<span class="req">*</span></label>
+              <div class="option-group" id="grossIncomeGroup">
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002noVZ" value="No income" required>
+                  <span>No income</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002noVZ" value="Less than $10,000">
+                  <span>Less than $10,000</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002noVZ" value="$10,000–$19,999">
+                  <span>$10,000–$19,999</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002noVZ" value="$20,000–$29,999">
+                  <span>$20,000–$29,999</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002noVZ" value="$30,000–$39,999">
+                  <span>$30,000–$39,999</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002noVZ" value="$40,000–$49,999">
+                  <span>$40,000–$49,999</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002noVZ" value="$50,000–$74,999">
+                  <span>$50,000–$74,999</span>
+                </label>
+                <label class="option-item">
+                  <input type="radio" name="00NbV000002noVZ" value="$75,000 or more">
+                  <span>$75,000 or more</span>
+                </label>
+              </div>
             </div>
             
             <div class="form-row full-width">
@@ -2318,6 +2350,12 @@
           barFill.style.width = pct + '%';
 
           window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+
+      document.querySelector('form').addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') {
+          e.preventDefault();
         }
       });
 
